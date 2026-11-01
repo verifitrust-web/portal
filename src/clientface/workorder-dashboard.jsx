@@ -51,7 +51,7 @@
 //   if (s.includes('initiated')) return 'bg-blue-50 text-blue-700 border-blue-200';
 //   if (s.includes('document')) return 'bg-purple-50 text-purple-700 border-purple-200';
 //   if (s.includes('progress')) return 'bg-amber-50 text-amber-700 border-amber-200';
-//   if (s.includes('complete')) return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+//   if (s.includes('complete')) return 'bg-[#69BE28]/10 text-[#47891A] border-[#69BE28]/30';
 //   if (s.includes('overdue') || s.includes('discrepant')) return 'bg-red-50 text-red-700 border-red-200';
 //   if (s.includes('pending')) return 'bg-gray-50 text-gray-600 border-gray-200';
 //   return 'bg-gray-50 text-gray-600 border-gray-200';
@@ -92,7 +92,7 @@
 // // ====================================================================
 // // Small reusable bits (used only inside the View modal now)
 // // ====================================================================
-// const SectionTitle = ({ icon: Icon, title, color = '#00B494' }) => (
+// const SectionTitle = ({ icon: Icon, title, color = '#5BA61F' }) => (
 //   <div className="flex items-center gap-2 mb-4">
 //     <Icon size={18} style={{ color }} />
 //     <h4 className="text-base font-bold text-black">{title}</h4>
@@ -247,7 +247,7 @@
 //   const viewDocs = viewCd.documents || {};
 
 //   return (
-//     <div className="min-h-screen bg-[#f8fefd] text-black font-sans selection:bg-[#00D4AA]/30 selection:text-black">
+//     <div className="min-h-screen bg-[#F9FCF4] text-black font-sans selection:bg-[#69BE28]/30 selection:text-black">
 //       <Header showNavigation={false} />
 
 //       <main className="max-w-7xl mx-auto px-8 py-12">
@@ -264,8 +264,8 @@
 //         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-8 animate-fade-in-up">
 //           <div className="md:w-1/2">
 //             <div className="flex items-center gap-4 mb-3">
-//               <div className="w-12 h-12 rounded-xl bg-[#00D4AA]/10 flex items-center justify-center border border-[#00D4AA]/20">
-//                 <IoBriefcaseOutline size={24} className="text-[#00B494]" />
+//               <div className="w-12 h-12 rounded-xl bg-[#69BE28]/10 flex items-center justify-center border border-[#69BE28]/20">
+//                 <IoBriefcaseOutline size={24} className="text-[#5BA61F]" />
 //               </div>
 //               <h2 className="text-4xl font-bold text-black tracking-tight">Workorder Management</h2>
 //             </div>
@@ -279,25 +279,25 @@
 //             <div className="relative flex-1 md:w-72 lg:w-80">
 //               <IoSearchOutline className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
 //               <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search Ref, Candidate, Client..."
-//                 className="w-full bg-white border border-gray-200 focus:border-[#00B494] rounded-xl pl-12 pr-5 py-3 outline-none text-sm text-black placeholder-gray-400 transition-all shadow-sm" />
+//                 className="w-full bg-white border border-gray-200 focus:border-[#5BA61F] rounded-xl pl-12 pr-5 py-3 outline-none text-sm text-black placeholder-gray-400 transition-all shadow-sm" />
 //             </div>
 
 //             <div className="flex bg-gray-100 rounded-xl p-1 border border-gray-200">
-//               <button onClick={() => setViewType('list')} className={`p-2.5 rounded-lg transition-all ${viewType === 'list' ? 'bg-[#00D4AA] text-black' : 'text-gray-500 hover:text-black'}`}><IoListOutline size={20} /></button>
-//               <button onClick={() => setViewType('grid')} className={`p-2.5 rounded-lg transition-all ${viewType === 'grid' ? 'bg-[#00D4AA] text-black' : 'text-gray-500 hover:text-black'}`}><IoCardOutline size={20} /></button>
+//               <button onClick={() => setViewType('list')} className={`p-2.5 rounded-lg transition-all ${viewType === 'list' ? 'bg-[#69BE28] text-black' : 'text-gray-500 hover:text-black'}`}><IoListOutline size={20} /></button>
+//               <button onClick={() => setViewType('grid')} className={`p-2.5 rounded-lg transition-all ${viewType === 'grid' ? 'bg-[#69BE28] text-black' : 'text-gray-500 hover:text-black'}`}><IoCardOutline size={20} /></button>
 //             </div>
 
 //             <button onClick={() => setIsFilterOpen(true)}
 //               className={`relative px-5 py-3 rounded-xl font-medium text-sm transition-all border flex items-center gap-2
 //                 ${Object.values(filterCriteria).some((val) => val && val !== 'all') || searchQuery
-//                   ? 'bg-[#00D4AA]/10 border-[#00D4AA]/30 text-[#00806E]'
+//                   ? 'bg-[#69BE28]/10 border-[#69BE28]/30 text-[#47891A]'
 //                   : 'bg-white border-gray-200 text-gray-500 hover:text-black hover:bg-gray-50'}`}>
 //               <IoFilterOutline size={18} />
 //               <span>Filter</span>
 //             </button>
 
 //             <button onClick={() => navigate('/workorder-creation')}
-//               className="group flex items-center gap-2 px-6 py-3 bg-[#00D4AA] text-black rounded-xl font-bold text-sm transition-all hover:shadow-[0_0_20px_rgba(0,212,170,0.35)] hover:scale-105 active:scale-95 overflow-hidden">
+//               className="group flex items-center gap-2 px-6 py-3 bg-[#69BE28] text-black rounded-xl font-bold text-sm transition-all hover:shadow-[0_0_20px_rgba(105,190,40,0.35)] hover:scale-105 active:scale-95 overflow-hidden">
 //               <IoAdd size={18} className="relative z-10" />
 //               <span className="relative z-10">New Workorder</span>
 //             </button>
@@ -307,8 +307,8 @@
 //         {/* STATS */}
 //         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
 //           {[
-//             { label: 'TOTAL', val: stats.total ?? workorders.length, color: 'text-[#00B494]' },
-//             { label: 'ACTIVE', val: stats.active ?? 0, color: 'text-emerald-600' },
+//             { label: 'TOTAL', val: stats.total ?? workorders.length, color: 'text-[#5BA61F]' },
+//             { label: 'ACTIVE', val: stats.active ?? 0, color: 'text-[#5BA61F]' },
 //             { label: 'COMPLETED', val: stats.completed ?? 0, color: 'text-blue-600' },
 //             { label: 'OVERDUE', val: stats.overdue ?? 0, color: 'text-red-600' },
 //           ].map((stat, i) => (
@@ -351,10 +351,10 @@
 //                           const pct = total ? Math.round((done / total) * 100) : 0;
 //                           return (
 //                             <tr key={wo._id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors group">
-//                               <td className="p-5"><span className="px-3 py-1.5 rounded-lg bg-[#00D4AA]/10 text-[#00806E] text-xs font-mono font-bold whitespace-nowrap">{wo.bgvRef}</span></td>
+//                               <td className="p-5"><span className="px-3 py-1.5 rounded-lg bg-[#69BE28]/10 text-[#47891A] text-xs font-mono font-bold whitespace-nowrap">{wo.bgvRef}</span></td>
 //                               <td className="p-5">
 //                                 <div className="flex items-center gap-4">
-//                                   <div className="w-10 h-10 rounded-lg bg-gray-100 border border-gray-200 flex items-center justify-center text-sm font-bold text-[#00806E]">{wo.fullName?.charAt(0) || '?'}</div>
+//                                   <div className="w-10 h-10 rounded-lg bg-gray-100 border border-gray-200 flex items-center justify-center text-sm font-bold text-[#47891A]">{wo.fullName?.charAt(0) || '?'}</div>
 //                                   <div>
 //                                     <div className="font-medium text-black text-sm">{wo.fullName || '—'}</div>
 //                                     {wo.email && <div className="text-xs text-gray-400 mt-0.5 max-w-xs truncate">{wo.email}</div>}
@@ -375,14 +375,14 @@
 //                               </td>
 //                               <td className="p-5">
 //                                 <div className="flex items-center gap-2">
-//                                   <div className="w-20 h-1.5 rounded-full bg-gray-200 overflow-hidden"><div className="h-full bg-[#00D4AA] rounded-full transition-all" style={{ width: `${pct}%` }} /></div>
+//                                   <div className="w-20 h-1.5 rounded-full bg-gray-200 overflow-hidden"><div className="h-full bg-[#69BE28] rounded-full transition-all" style={{ width: `${pct}%` }} /></div>
 //                                   <span className="text-xs text-gray-500 whitespace-nowrap">{done}/{total}</span>
 //                                 </div>
 //                               </td>
 //                               <td className="p-5 text-xs text-gray-500 whitespace-nowrap">{formatDate(wo.createdAt)}</td>
 //                               <td className="p-5 text-right">
 //                                 <div className="flex items-center justify-end gap-2 opacity-70 group-hover:opacity-100 transition-opacity">
-//                                   <button onClick={() => handleView(wo)} title="View" className="p-2 rounded-lg hover:bg-[#00D4AA]/10 hover:text-[#00806E] text-gray-500 transition-all"><IoViewIcon size={18} /></button>
+//                                   <button onClick={() => handleView(wo)} title="View" className="p-2 rounded-lg hover:bg-[#69BE28]/10 hover:text-[#47891A] text-gray-500 transition-all"><IoViewIcon size={18} /></button>
 //                                   {!wo.locked && (
 //                                     <button onClick={() => handleEdit(wo)} title="Edit" className="p-2 rounded-lg hover:bg-blue-50 hover:text-blue-600 text-gray-500 transition-all"><IoPencilOutline size={18} /></button>
 //                                   )}
@@ -424,7 +424,7 @@
 //                       <div key={wo._id} className="group relative bg-white border border-gray-200 rounded-2xl p-6 hover:border-gray-300 hover:shadow-lg shadow-sm transition-all duration-300 flex flex-col h-full">
 //                         <div className="flex items-start justify-between mb-6">
 //                           <div className="flex items-center gap-3">
-//                             <div className="w-11 h-11 rounded-lg bg-gray-100 border border-gray-200 flex items-center justify-center text-base font-bold text-[#00806E]">{wo.fullName?.charAt(0) || '?'}</div>
+//                             <div className="w-11 h-11 rounded-lg bg-gray-100 border border-gray-200 flex items-center justify-center text-base font-bold text-[#47891A]">{wo.fullName?.charAt(0) || '?'}</div>
 //                             <div>
 //                               <h3 className="font-bold text-black text-sm leading-tight">{wo.fullName || '—'}</h3>
 //                               <p className="text-[10px] text-gray-400 mt-0.5 font-mono">{wo.bgvRef}</p>
@@ -447,10 +447,10 @@
 //                         </div>
 //                         <div className="mb-4">
 //                           <div className="flex items-center justify-between text-[10px] text-gray-500 mb-1.5"><span>Progress</span><span>{done}/{total}</span></div>
-//                           <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden"><div className="h-full bg-[#00D4AA] rounded-full transition-all" style={{ width: `${pct}%` }} /></div>
+//                           <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden"><div className="h-full bg-[#69BE28] rounded-full transition-all" style={{ width: `${pct}%` }} /></div>
 //                         </div>
 //                         <div className="pt-4 border-t border-gray-100 flex justify-between items-center opacity-80 group-hover:opacity-100 transition-opacity">
-//                           <button onClick={() => handleView(wo)} className="text-xs font-medium flex items-center gap-1 text-gray-600 hover:text-[#00806E]">View Details</button>
+//                           <button onClick={() => handleView(wo)} className="text-xs font-medium flex items-center gap-1 text-gray-600 hover:text-[#47891A]">View Details</button>
 //                           <div className="flex gap-2">
 //                             {!wo.locked && (
 //                               <button onClick={() => handleEdit(wo)} title="Edit" className="p-2 rounded-lg bg-gray-100 hover:bg-blue-600 hover:text-white transition-all text-blue-600"><IoPencilOutline size={15} /></button>
@@ -501,8 +501,8 @@
 //           <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
 //             <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setIsViewModalOpen(false)} />
 //             <div className="relative w-full max-w-2xl bg-white border border-gray-200 rounded-2xl p-0 shadow-2xl animate-fade-in-up overflow-hidden max-h-[92vh] flex flex-col">
-//               <div className="h-28 bg-gradient-to-r from-[#00D4AA]/15 to-blue-100 relative flex items-end p-8 flex-shrink-0">
-//                 <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center border-2 border-[#00D4AA] shadow-xl text-2xl font-bold text-[#00806E] overflow-hidden">
+//               <div className="h-28 bg-gradient-to-r from-[#69BE28]/15 to-blue-100 relative flex items-end p-8 flex-shrink-0">
+//                 <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center border-2 border-[#69BE28] shadow-xl text-2xl font-bold text-[#47891A] overflow-hidden">
 //                   {viewDocs.passportPhoto ? <img src={fileHref(viewDocs.passportPhoto)} alt="photo" className="w-full h-full object-cover" /> : (viewingWorkorder.fullName?.charAt(0) || '?')}
 //                 </div>
 //               </div>
@@ -510,7 +510,7 @@
 //                 <div className="flex justify-between items-start flex-wrap gap-3">
 //                   <div>
 //                     <h3 className="text-2xl font-bold text-black">{viewingWorkorder.fullName}</h3>
-//                     <p className="text-sm text-[#00806E] font-mono mt-1">{viewingWorkorder.bgvRef}</p>
+//                     <p className="text-sm text-[#47891A] font-mono mt-1">{viewingWorkorder.bgvRef}</p>
 //                   </div>
 //                   <div className="flex items-center gap-2">
 //                     <span className={`px-4 py-1.5 rounded-full text-xs font-bold border ${statusBadgeClass(friendlyStatus(viewingWorkorder))}`}>{friendlyStatus(viewingWorkorder)}</span>
@@ -583,7 +583,7 @@
 //                                     <span className="flex items-center gap-1"><IoPersonOutline size={11} /> {c.infoNeeded || 'Candidate'}</span>
 //                                     <span className={`px-2 py-0.5 rounded text-[10px] border ${statusBadgeClass(c.status)}`}>{c.status || 'pending'}</span>
 //                                     {c.assignedToName && (
-//                                       <span className="px-2 py-0.5 rounded text-[10px] border bg-emerald-50 text-emerald-700 border-emerald-200">
+//                                       <span className="px-2 py-0.5 rounded text-[10px] border bg-[#69BE28]/10 text-[#47891A] border-[#69BE28]/30">
 //                                         Assigned: {c.assignedToName}
 //                                       </span>
 //                                     )}
@@ -710,7 +710,7 @@
 //                       </div>
 //                     </div>
 //                     <div>
-//                       <SectionTitle icon={IoIdCardOutline} title="Identity Documents" color="#00B494" />
+//                       <SectionTitle icon={IoIdCardOutline} title="Identity Documents" color="#5BA61F" />
 //                       <div className="grid grid-cols-2 gap-4 text-sm">
 //                         <ViewCell label="Aadhaar Number" value={viewCd.aadhaarNumber} />
 //                         <ViewCell label="Name on Aadhaar" value={viewCd.nameOnAadhaar} />
@@ -731,11 +731,11 @@
 //                             ['Passport File', viewDocs.passportFile],
 //                             ['DL File', viewDocs.dlFile],
 //                           ].filter(([, url]) => url).map(([label, url], i) => (
-//                             <a key={i} href={fileHref(url)} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 border border-gray-200 hover:border-[#00D4AA]/50 transition-all">
-//                               <div className="w-9 h-9 rounded-lg bg-[#00D4AA]/10 border border-[#00D4AA]/20 flex items-center justify-center text-[#00806E] flex-shrink-0"><IoDownloadOutline size={16} /></div>
+//                             <a key={i} href={fileHref(url)} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 border border-gray-200 hover:border-[#69BE28]/50 transition-all">
+//                               <div className="w-9 h-9 rounded-lg bg-[#69BE28]/10 border border-[#69BE28]/20 flex items-center justify-center text-[#47891A] flex-shrink-0"><IoDownloadOutline size={16} /></div>
 //                               <div className="min-w-0">
 //                                 <div className="text-sm text-black truncate">{label}</div>
-//                                 <div className="text-[10px] text-[#00806E]">View / Download</div>
+//                                 <div className="text-[10px] text-[#47891A]">View / Download</div>
 //                               </div>
 //                             </a>
 //                           ))}
@@ -762,25 +762,25 @@
 //             <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setIsFilterOpen(false)} />
 //             <div className="relative w-full max-w-md bg-white border border-gray-200 rounded-2xl shadow-2xl animate-fade-in-up p-8">
 //               <div className="flex justify-between items-center mb-8">
-//                 <h3 className="text-lg font-bold text-black flex items-center gap-2"><IoFilterOutline className="text-[#00B494]" />Advanced Filter</h3>
+//                 <h3 className="text-lg font-bold text-black flex items-center gap-2"><IoFilterOutline className="text-[#5BA61F]" />Advanced Filter</h3>
 //                 <button onClick={() => setIsFilterOpen(false)} className="text-gray-400 hover:text-black"><IoCloseOutline size={24} /></button>
 //               </div>
 //               <div className="space-y-5">
 //                 <div>
 //                   <label className="block text-xs font-medium text-gray-500 mb-2">Workorder #</label>
-//                   <input type="text" name="bgvRef" value={filterCriteria.bgvRef} onChange={handleFilterChange} className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none text-black focus:border-[#00B494]" placeholder="e.g. BGV-2026-00001" />
+//                   <input type="text" name="bgvRef" value={filterCriteria.bgvRef} onChange={handleFilterChange} className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none text-black focus:border-[#5BA61F]" placeholder="e.g. BGV-2026-00001" />
 //                 </div>
 //                 <div>
 //                   <label className="block text-xs font-medium text-gray-500 mb-2">Candidate</label>
-//                   <input type="text" name="candidate" value={filterCriteria.candidate} onChange={handleFilterChange} className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none text-black focus:border-[#00B494]" placeholder="e.g. John Doe" />
+//                   <input type="text" name="candidate" value={filterCriteria.candidate} onChange={handleFilterChange} className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none text-black focus:border-[#5BA61F]" placeholder="e.g. John Doe" />
 //                 </div>
 //                 <div>
 //                   <label className="block text-xs font-medium text-gray-500 mb-2">Client</label>
-//                   <input type="text" name="client" value={filterCriteria.client} onChange={handleFilterChange} className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none text-black focus:border-[#00B494]" placeholder="e.g. TEST" />
+//                   <input type="text" name="client" value={filterCriteria.client} onChange={handleFilterChange} className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none text-black focus:border-[#5BA61F]" placeholder="e.g. TEST" />
 //                 </div>
 //                 <div>
 //                   <label className="block text-xs font-medium text-gray-500 mb-2">Status</label>
-//                   <select name="status" value={filterCriteria.status} onChange={handleFilterChange} className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none text-black focus:border-[#00B494]">
+//                   <select name="status" value={filterCriteria.status} onChange={handleFilterChange} className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none text-black focus:border-[#5BA61F]">
 //                     <option value="all">All Status</option>
 //                     {STATUS_OPTIONS.map((s) => <option key={s} value={s}>{s}</option>)}
 //                   </select>
@@ -788,7 +788,7 @@
 //               </div>
 //               <div className="flex gap-3 mt-8">
 //                 <button onClick={clearFilters} className="flex-1 py-3 rounded-xl border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50"><IoRefreshOutline size={16} className="inline mr-1" />Clear</button>
-//                 <button onClick={() => setIsFilterOpen(false)} className="flex-1 py-3 rounded-xl bg-[#00D4AA] text-black font-bold text-sm">Apply</button>
+//                 <button onClick={() => setIsFilterOpen(false)} className="flex-1 py-3 rounded-xl bg-[#69BE28] text-black font-bold text-sm">Apply</button>
 //               </div>
 //             </div>
 //           </div>
@@ -912,7 +912,7 @@ const statusBadgeClass = (status = '') => {
   if (s.includes('candidate details')) return 'bg-purple-50 text-purple-700 border-purple-200';
   if (s.includes('de pending')) return 'bg-indigo-50 text-indigo-700 border-indigo-200';
   if (s.includes('progress')) return 'bg-amber-50 text-amber-700 border-amber-200';
-  if (s.includes('complete')) return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+  if (s.includes('complete')) return 'bg-[#69BE28]/10 text-[#47891A] border-[#69BE28]/30';
   if (s.includes('overdue') || s.includes('discrepant')) return 'bg-red-50 text-red-700 border-red-200';
   return 'bg-gray-50 text-gray-600 border-gray-200';
 };
@@ -985,7 +985,7 @@ const getActorIdentity = () => {
 };
 
 // Reusable components
-const SectionTitle = ({ icon: Icon, title, color = '#00B494' }) => (
+const SectionTitle = ({ icon: Icon, title, color = '#5BA61F' }) => (
   <div className="flex items-center gap-2 mb-4">
     <Icon size={18} style={{ color }} />
     <h4 className="text-base font-bold text-black">{title}</h4>
@@ -1241,14 +1241,14 @@ const WorkorderDashboard = () => {
   const viewDocs = viewCd.documents || {};
 
   return (
-    <div className="min-h-screen bg-[#f8fefd] text-black font-sans selection:bg-[#00D4AA]/30 selection:text-black">
+    <div className="min-h-screen bg-[#F9FCF4] text-black font-sans selection:bg-[#69BE28]/30 selection:text-black">
       <Header showNavigation={false} />
 
       {notification && (
         <div
           className={`fixed top-20 right-6 z-[130] px-6 py-4 rounded-2xl border flex items-center gap-3 shadow-xl ${
             notification.type === 'success'
-              ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
+              ? 'bg-[#69BE28]/10 border-[#69BE28]/30 text-[#47891A]'
               : 'bg-red-50 border-red-200 text-red-700'
           }`}
         >
@@ -1257,84 +1257,144 @@ const WorkorderDashboard = () => {
         </div>
       )}
 
-      <main className="max-w-7xl mx-auto px-8 py-12">
-        <div className="flex items-center justify-between mb-10">
-          <button onClick={() => navigate(-1)} className="flex items-center gap-2 px-4 py-2.5 bg-white hover:bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-600 hover:text-black transition-all active:scale-95 shadow-sm">
-            <IoArrowBackOutline size={20} />
-            <span>Back</span>
+      <main className="max-w-7xl mx-auto px-6 sm:px-8 py-8">
+        {/* Breadcrumb + Back */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-2 text-xs text-gray-400">
+            <button onClick={() => navigate(-1)} className="flex items-center gap-1.5 hover:text-gray-700 transition-colors">
+              <IoArrowBackOutline size={14} />
+              <span>Back</span>
+            </button>
+            <span className="text-gray-300">/</span>
+            <span className="text-gray-700 font-medium">Workorder Management</span>
+          </div>
+        </div>
+
+        {/* Page header — Veri Flow style: title + subtitle + action buttons */}
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-8 gap-4 animate-fade-in-up">
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">Workorder Management</h1>
+            <p className="text-sm text-gray-500 mt-1">Create and manage BGV workorders, track progress and verification status.</p>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              onClick={() => navigate('/client-stopped-management')}
+              className="flex items-center gap-2 px-4 py-2.5 bg-white border border-red-200 hover:border-red-400 rounded-xl text-xs font-semibold text-red-600 hover:text-red-700 transition-all shadow-sm"
+            >
+              <IoStopCircleOutline size={16} />
+              Stopped Management
+            </button>
+            <button
+              onClick={() => navigate('/workorder-creation')}
+              className="flex items-center gap-2 px-5 py-2.5 bg-[#69BE28] text-white rounded-xl text-xs font-semibold transition-all hover:shadow-[0_4px_14px_rgba(105,190,40,0.35)] hover:scale-[1.02] active:scale-95"
+            >
+              <IoAdd size={16} />
+              New Workorder
+            </button>
+          </div>
+        </div>
+
+        {/* Stat cards — Veri Flow style: icon + big number + label */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-6">
+          {[
+            { label: 'Total', val: stats.total ?? workorders.length, icon: IoBriefcaseOutline, color: '#69BE28', colorRgb: '105,190,40' },
+            { label: 'Active', val: stats.active ?? 0, icon: IoGridOutline, color: '#06B6D4', colorRgb: '6,182,212' },
+            { label: 'Completed', val: stats.completed ?? 0, icon: IoShieldCheckmarkOutline, color: '#5BA61F', colorRgb: '91,166,31' },
+            { label: 'Overdue', val: stats.overdue ?? 0, icon: IoTimeOutline, color: '#EF4444', colorRgb: '239,68,68' },
+            { label: 'Stopped', val: stats.stopped ?? 0, icon: IoStopCircleOutline, color: '#DC2626', colorRgb: '220,38,38' },
+          ].map((stat, i) => {
+            const StatIcon = stat.icon;
+            return (
+              <div key={i} className="relative rounded-2xl p-4 sm:p-5 overflow-hidden border bg-white" style={{ borderColor: '#E8F5D9' }}>
+                <div className="flex items-start justify-between mb-3">
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `rgba(${stat.colorRgb}, 0.10)` }}>
+                    <StatIcon size={20} style={{ color: stat.color }} />
+                  </div>
+                </div>
+                <h3 className="text-2xl font-bold mb-1 text-gray-900">{loading ? '—' : stat.val}</h3>
+                <p className="text-xs text-gray-500">{stat.label}</p>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Search + filters bar — Veri Flow style */}
+        <div className="flex flex-col sm:flex-row gap-3 mb-5">
+          <div className="relative flex-1">
+            <IoSearchOutline size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search by ref, candidate or client..."
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl text-xs border outline-none focus:ring-2 focus:ring-[#69BE28]/20 focus:border-[#69BE28] transition-all"
+              style={{ borderColor: '#E8F5D9', background: '#fff' }}
+            />
+          </div>
+          <div className="flex bg-gray-100 rounded-xl p-1 border" style={{ borderColor: '#E8F5D9' }}>
+            <button onClick={() => setViewType('list')} className={`p-2 rounded-lg transition-all ${viewType === 'list' ? 'bg-[#69BE28] text-white' : 'text-gray-500 hover:text-black'}`}><IoListOutline size={18} /></button>
+            <button onClick={() => setViewType('grid')} className={`p-2 rounded-lg transition-all ${viewType === 'grid' ? 'bg-[#69BE28] text-white' : 'text-gray-500 hover:text-black'}`}><IoCardOutline size={18} /></button>
+          </div>
+          <button
+            onClick={() => setIsFilterOpen(true)}
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold border transition-all ${
+              Object.values(filterCriteria).some((val) => val && val !== 'all') || searchQuery
+                ? 'bg-[#69BE28]/10 border-[#69BE28]/30 text-[#47891A]'
+                : 'bg-white text-gray-600 hover:bg-gray-50'
+            }`}
+            style={{ borderColor: Object.values(filterCriteria).some((val) => val && val !== 'all') || searchQuery ? '#69BE2880' : '#E8F5D9' }}
+          >
+            <IoFilterOutline size={16} />
+            <span>Filter</span>
           </button>
         </div>
 
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-8 animate-fade-in-up">
-          <div className="md:w-1/2">
-            <div className="flex items-center gap-4 mb-3">
-              <div className="w-12 h-12 rounded-xl bg-[#00D4AA]/10 flex items-center justify-center border border-[#00D4AA]/20">
-                <IoBriefcaseOutline size={24} className="text-[#00B494]" />
-              </div>
-              <h2 className="text-4xl font-bold text-black tracking-tight">Workorder Management</h2>
-            </div>
-            <p className="text-gray-600 text-base leading-relaxed flex items-center gap-2">
-              <IoGridOutline size={18} className="text-gray-400" />
-              Create and manage BGV workorders, track progress and verification status.
-            </p>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-4 w-full md:w-auto">
-            <div className="relative flex-1 md:w-72 lg:w-80">
-              <IoSearchOutline className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search Ref, Candidate, Client..."
-                className="w-full bg-white border border-gray-200 focus:border-[#00B494] rounded-xl pl-12 pr-5 py-3 outline-none text-sm text-black placeholder-gray-400 transition-all shadow-sm" />
-            </div>
-
-            <div className="flex bg-gray-100 rounded-xl p-1 border border-gray-200">
-              <button onClick={() => setViewType('list')} className={`p-2.5 rounded-lg transition-all ${viewType === 'list' ? 'bg-[#00D4AA] text-black' : 'text-gray-500 hover:text-black'}`}><IoListOutline size={20} /></button>
-              <button onClick={() => setViewType('grid')} className={`p-2.5 rounded-lg transition-all ${viewType === 'grid' ? 'bg-[#00D4AA] text-black' : 'text-gray-500 hover:text-black'}`}><IoCardOutline size={20} /></button>
-            </div>
-
-            <button onClick={() => setIsFilterOpen(true)}
-              className={`relative px-5 py-3 rounded-xl font-medium text-sm transition-all border flex items-center gap-2
-                ${Object.values(filterCriteria).some((val) => val && val !== 'all') || searchQuery
-                  ? 'bg-[#00D4AA]/10 border-[#00D4AA]/30 text-[#00806E]'
-                  : 'bg-white border-gray-200 text-gray-500 hover:text-black hover:bg-gray-50'}`}>
-              <IoFilterOutline size={18} />
-              <span>Filter</span>
-            </button>
-
-            <button
-              onClick={() => navigate('/client-stopped-management')}
-              className="flex items-center gap-2 px-5 py-3 bg-white border border-red-200 hover:border-red-400 rounded-xl text-sm font-semibold text-red-600 hover:text-red-700 transition-all shadow-sm"
-            >
-              <IoStopCircleOutline size={18} />
-              Stopped Management
-            </button>
-
-            <button onClick={() => navigate('/workorder-creation')}
-              className="group flex items-center gap-2 px-6 py-3 bg-[#00D4AA] text-black rounded-xl font-bold text-sm transition-all hover:shadow-[0_0_20px_rgba(0,212,170,0.35)] hover:scale-105 active:scale-95 overflow-hidden">
-              <IoAdd size={18} className="relative z-10" />
-              <span className="relative z-10">New Workorder</span>
-            </button>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-10">
-          {[
-            { label: 'TOTAL', val: stats.total ?? workorders.length, color: 'text-[#00B494]' },
-            { label: 'ACTIVE', val: stats.active ?? 0, color: 'text-emerald-600' },
-            { label: 'COMPLETED', val: stats.completed ?? 0, color: 'text-blue-600' },
-            { label: 'OVERDUE', val: stats.overdue ?? 0, color: 'text-red-600' },
-            { label: 'STOPPED', val: stats.stopped ?? 0, color: 'text-red-700' },
-          ].map((stat, i) => (
-            <div key={i} className="group relative p-6 rounded-2xl bg-white border border-gray-200 overflow-hidden transition-all hover:border-gray-300 hover:shadow-md shadow-sm">
-              <div className="relative flex flex-col items-start justify-between h-full gap-2">
-                <div className="text-xs font-bold text-gray-400 tracking-wider uppercase">{stat.label}</div>
-                <div className={`text-5xl font-bold ${stat.color} tracking-tighter`}>{stat.val}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-
         {loading ? (
-          <div className="text-center py-20 text-gray-500">Loading workorders...</div>
+          <div className="flex flex-col items-center justify-center py-20 px-4">
+            <div className="w-12 h-12 rounded-full border-3 border-[#69BE28]/20 border-t-[#69BE28] animate-spin mb-4" style={{ borderWidth: '3px' }} />
+            <p className="text-sm text-gray-500">Loading workorders...</p>
+          </div>
+        ) : filteredWorkorders.length === 0 ? (
+          /* ── Empty state — Veri Flow "Your board is clear" style ── */
+          <div className="bg-white rounded-2xl border flex flex-col items-center justify-center py-16 px-4 text-center" style={{ borderColor: '#E8F5D9' }}>
+            <div className="w-20 h-20 rounded-2xl flex items-center justify-center mb-5" style={{ background: 'rgba(105,190,40,0.10)', border: '1px solid rgba(105,190,40,0.20)' }}>
+              <IoBriefcaseOutline size={36} style={{ color: '#69BE28' }} />
+            </div>
+            <h3 className="text-lg font-bold text-gray-900 mb-1.5">Your workorder board is clear.</h3>
+            <p className="text-xs text-gray-500 mb-6 max-w-sm">
+              {searchQuery || Object.values(filterCriteria).some((v) => v && v !== 'all')
+                ? 'No workorders match your current filters. Try adjusting or clearing them.'
+                : 'Start a new background verification workorder to see it tracked here in real time.'}
+            </p>
+            <div className="flex flex-col sm:flex-row items-center gap-3">
+              {!searchQuery && !Object.values(filterCriteria).some((v) => v && v !== 'all') && (
+                <button
+                  onClick={() => navigate('/workorder-creation')}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-semibold text-white transition-all hover:scale-[1.02] hover:shadow-lg"
+                  style={{ background: 'linear-gradient(135deg, #69BE28 0%, #5BA61F 100%)', boxShadow: '0 4px 14px rgba(105,190,40,0.30)' }}
+                >
+                  <IoAdd size={14} /> Initiate First Workorder
+                </button>
+              )}
+              {!searchQuery && !Object.values(filterCriteria).some((v) => v && v !== 'all') && (
+                <button
+                  onClick={() => navigate('/workorder-creation')}
+                  className="text-[11px] text-gray-500 hover:text-[#47891A] underline-offset-2 hover:underline transition-colors"
+                >
+                  Or, import bulk candidates via CSV
+                </button>
+              )}
+              {(searchQuery || Object.values(filterCriteria).some((v) => v && v !== 'all')) && (
+                <button
+                  onClick={clearFilters}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-semibold border text-gray-600 hover:bg-gray-50 transition-all"
+                  style={{ borderColor: '#E8F5D9' }}
+                >
+                  <IoRefreshOutline size={14} /> Clear Filters
+                </button>
+              )}
+            </div>
+          </div>
         ) : (
           <>
             {viewType === 'list' && (
@@ -1369,10 +1429,10 @@ const WorkorderDashboard = () => {
                                 <td className="p-5 text-gray-400 cursor-pointer" onClick={() => toggleRow(wo._id)}>
                                   {checks.length > 0 && (isExpanded ? <IoChevronDown size={16} /> : <IoChevronForward size={16} />)}
                                 </td>
-                                <td className="p-5"><span className="px-3 py-1.5 rounded-lg bg-[#00D4AA]/10 text-[#00806E] text-xs font-mono font-bold whitespace-nowrap">{wo.bgvRef}</span></td>
+                                <td className="p-5"><span className="px-3 py-1.5 rounded-lg bg-[#69BE28]/10 text-[#47891A] text-xs font-mono font-bold whitespace-nowrap">{wo.bgvRef}</span></td>
                                 <td className="p-5">
                                   <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 rounded-lg bg-gray-100 border border-gray-200 flex items-center justify-center text-sm font-bold text-[#00806E]">{wo.fullName?.charAt(0) || '?'}</div>
+                                    <div className="w-10 h-10 rounded-lg bg-gray-100 border border-gray-200 flex items-center justify-center text-sm font-bold text-[#47891A]">{wo.fullName?.charAt(0) || '?'}</div>
                                     <div>
                                       <div className="font-medium text-black text-sm">{wo.fullName || '—'}</div>
                                       {wo.email && <div className="text-xs text-gray-400 mt-0.5 max-w-xs truncate">{wo.email}</div>}
@@ -1397,14 +1457,14 @@ const WorkorderDashboard = () => {
                                 </td>
                                 <td className="p-5">
                                   <div className="flex items-center gap-2">
-                                    <div className="w-20 h-1.5 rounded-full bg-gray-200 overflow-hidden"><div className="h-full bg-[#00D4AA] rounded-full transition-all" style={{ width: `${pct}%` }} /></div>
+                                    <div className="w-20 h-1.5 rounded-full bg-gray-200 overflow-hidden"><div className="h-full bg-[#69BE28] rounded-full transition-all" style={{ width: `${pct}%` }} /></div>
                                     <span className="text-xs text-gray-500 whitespace-nowrap">{done}/{total}</span>
                                   </div>
                                 </td>
                                 <td className="p-5 text-xs text-gray-500 whitespace-nowrap">{formatDate(wo.createdAt)}</td>
                                 <td className="p-5 text-right">
                                   <div className="flex items-center justify-end gap-2 opacity-70 group-hover:opacity-100 transition-opacity">
-                                    <button onClick={() => handleView(wo)} title="View" className="p-2 rounded-lg hover:bg-[#00D4AA]/10 hover:text-[#00806E] text-gray-500 transition-all"><IoViewIcon size={18} /></button>
+                                    <button onClick={() => handleView(wo)} title="View" className="p-2 rounded-lg hover:bg-[#69BE28]/10 hover:text-[#47891A] text-gray-500 transition-all"><IoViewIcon size={18} /></button>
                                     {!wo.locked && !wo.stopped && (
                                       <button onClick={() => handleEdit(wo)} title="Edit" className="p-2 rounded-lg hover:bg-blue-50 hover:text-blue-600 text-gray-500 transition-all"><IoPencilOutline size={18} /></button>
                                     )}
@@ -1443,7 +1503,7 @@ const WorkorderDashboard = () => {
                                         >
                                           <div className="flex-1 min-w-0">
                                             <div className="text-sm font-semibold text-gray-900 flex items-center gap-2">
-                                              <IoDocumentTextOutline size={15} className="text-[#00806E]" />
+                                              <IoDocumentTextOutline size={15} className="text-[#47891A]" />
                                               {c.checkType}
                                             </div>
                                             {c.subType && <div className="text-xs text-gray-500 italic ml-6">{c.subType}</div>}
@@ -1494,7 +1554,7 @@ const WorkorderDashboard = () => {
                       <div key={wo._id} className="group relative bg-white border border-gray-200 rounded-2xl p-6 hover:border-gray-300 hover:shadow-lg shadow-sm transition-all duration-300 flex flex-col h-full">
                         <div className="flex items-start justify-between mb-6">
                           <div className="flex items-center gap-3">
-                            <div className="w-11 h-11 rounded-lg bg-gray-100 border border-gray-200 flex items-center justify-center text-base font-bold text-[#00806E]">{wo.fullName?.charAt(0) || '?'}</div>
+                            <div className="w-11 h-11 rounded-lg bg-gray-100 border border-gray-200 flex items-center justify-center text-base font-bold text-[#47891A]">{wo.fullName?.charAt(0) || '?'}</div>
                             <div>
                               <h3 className="font-bold text-black text-sm leading-tight">{wo.fullName || '—'}</h3>
                               <p className="text-[10px] text-gray-400 mt-0.5 font-mono">{wo.bgvRef}</p>
@@ -1521,10 +1581,10 @@ const WorkorderDashboard = () => {
                         </div>
                         <div className="mb-4">
                           <div className="flex items-center justify-between text-[10px] text-gray-500 mb-1.5"><span>Progress</span><span>{done}/{total}</span></div>
-                          <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden"><div className="h-full bg-[#00D4AA] rounded-full transition-all" style={{ width: `${pct}%` }} /></div>
+                          <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden"><div className="h-full bg-[#69BE28] rounded-full transition-all" style={{ width: `${pct}%` }} /></div>
                         </div>
                         <div className="pt-4 border-t border-gray-100 flex justify-between items-center opacity-80 group-hover:opacity-100 transition-opacity">
-                          <button onClick={() => handleView(wo)} className="text-xs font-medium flex items-center gap-1 text-gray-600 hover:text-[#00806E]">View Details</button>
+                          <button onClick={() => handleView(wo)} className="text-xs font-medium flex items-center gap-1 text-gray-600 hover:text-[#47891A]">View Details</button>
                           <div className="flex gap-2">
                             {!wo.locked && !wo.stopped && (
                               <button onClick={() => handleEdit(wo)} title="Edit" className="p-2 rounded-lg bg-gray-100 hover:bg-blue-600 hover:text-white transition-all text-blue-600"><IoPencilOutline size={15} /></button>
@@ -1583,8 +1643,8 @@ const WorkorderDashboard = () => {
           <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
             <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setIsViewModalOpen(false)} />
             <div className="relative w-full max-w-2xl bg-white border border-gray-200 rounded-2xl p-0 shadow-2xl animate-fade-in-up overflow-hidden max-h-[92vh] flex flex-col">
-              <div className="h-28 bg-gradient-to-r from-[#00D4AA]/15 to-blue-100 relative flex items-end p-8 flex-shrink-0">
-                <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center border-2 border-[#00D4AA] shadow-xl text-2xl font-bold text-[#00806E] overflow-hidden">
+              <div className="h-28 bg-gradient-to-r from-[#69BE28]/15 to-blue-100 relative flex items-end p-8 flex-shrink-0">
+                <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center border-2 border-[#69BE28] shadow-xl text-2xl font-bold text-[#47891A] overflow-hidden">
                   {viewDocs.passportPhoto ? <img src={fileHref(viewDocs.passportPhoto)} alt="photo" className="w-full h-full object-cover" /> : (viewingWorkorder.fullName?.charAt(0) || '?')}
                 </div>
               </div>
@@ -1592,7 +1652,7 @@ const WorkorderDashboard = () => {
                 <div className="flex justify-between items-start flex-wrap gap-3">
                   <div>
                     <h3 className="text-2xl font-bold text-black">{viewingWorkorder.fullName}</h3>
-                    <p className="text-sm text-[#00806E] font-mono mt-1">{viewingWorkorder.bgvRef}</p>
+                    <p className="text-sm text-[#47891A] font-mono mt-1">{viewingWorkorder.bgvRef}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className={`px-4 py-1.5 rounded-full text-xs font-bold border flex items-center gap-1 ${statusBadgeClass(getProgressStatus(viewingWorkorder))}`}>
@@ -1669,25 +1729,25 @@ const WorkorderDashboard = () => {
             <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setIsFilterOpen(false)} />
             <div className="relative w-full max-w-md bg-white border border-gray-200 rounded-2xl shadow-2xl animate-fade-in-up p-8">
               <div className="flex justify-between items-center mb-8">
-                <h3 className="text-lg font-bold text-black flex items-center gap-2"><IoFilterOutline className="text-[#00B494]" />Advanced Filter</h3>
+                <h3 className="text-lg font-bold text-black flex items-center gap-2"><IoFilterOutline className="text-[#5BA61F]" />Advanced Filter</h3>
                 <button onClick={() => setIsFilterOpen(false)} className="text-gray-400 hover:text-black"><IoCloseOutline size={24} /></button>
               </div>
               <div className="space-y-5">
                 <div>
                   <label className="block text-xs font-medium text-gray-500 mb-2">Workorder #</label>
-                  <input type="text" name="bgvRef" value={filterCriteria.bgvRef} onChange={handleFilterChange} className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none text-black focus:border-[#00B494]" placeholder="e.g. BGV-2026-00001" />
+                  <input type="text" name="bgvRef" value={filterCriteria.bgvRef} onChange={handleFilterChange} className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none text-black focus:border-[#5BA61F]" placeholder="e.g. BGV-2026-00001" />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-gray-500 mb-2">Candidate</label>
-                  <input type="text" name="candidate" value={filterCriteria.candidate} onChange={handleFilterChange} className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none text-black focus:border-[#00B494]" placeholder="e.g. John Doe" />
+                  <input type="text" name="candidate" value={filterCriteria.candidate} onChange={handleFilterChange} className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none text-black focus:border-[#5BA61F]" placeholder="e.g. John Doe" />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-gray-500 mb-2">Client</label>
-                  <input type="text" name="client" value={filterCriteria.client} onChange={handleFilterChange} className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none text-black focus:border-[#00B494]" placeholder="e.g. TEST" />
+                  <input type="text" name="client" value={filterCriteria.client} onChange={handleFilterChange} className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none text-black focus:border-[#5BA61F]" placeholder="e.g. TEST" />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-gray-500 mb-2">Status</label>
-                  <select name="status" value={filterCriteria.status} onChange={handleFilterChange} className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none text-black focus:border-[#00B494]">
+                  <select name="status" value={filterCriteria.status} onChange={handleFilterChange} className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 outline-none text-black focus:border-[#5BA61F]">
                     <option value="all">All Status</option>
                     {STATUS_OPTIONS.map((s) => <option key={s} value={s}>{s}</option>)}
                   </select>
@@ -1695,7 +1755,7 @@ const WorkorderDashboard = () => {
               </div>
               <div className="flex gap-3 mt-8">
                 <button onClick={clearFilters} className="flex-1 py-3 rounded-xl border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50"><IoRefreshOutline size={16} className="inline mr-1" />Clear</button>
-                <button onClick={() => setIsFilterOpen(false)} className="flex-1 py-3 rounded-xl bg-[#00D4AA] text-black font-bold text-sm">Apply</button>
+                <button onClick={() => setIsFilterOpen(false)} className="flex-1 py-3 rounded-xl bg-[#69BE28] text-black font-bold text-sm">Apply</button>
               </div>
             </div>
           </div>
