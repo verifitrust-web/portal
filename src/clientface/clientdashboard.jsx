@@ -67,15 +67,31 @@
 
     const priorityStyles = {
     urgent: 'bg-red-100 text-red-700 border border-red-300', high: 'bg-red-50 text-red-600 border border-red-200',
-    medium: 'bg-amber-50 text-amber-600 border border-amber-200', low: 'bg-green-50 text-green-600 border border-green-200',
-    standard: 'bg-gray-50 text-gray-600 border border-gray-200',
+    medium: 'bg-amber-50 text-amber-600 border border-amber-200', low: 'bg-emerald-50 text-emerald-600 border border-emerald-200',
+    standard: 'bg-emerald-50 text-emerald-600 border border-emerald-200',
+    };
+
+    // ── "Veri Flow" green theme — matches the Verifitrust brand ──
+    const THEME = {
+    brand:        '#10B981', // emerald-500 — primary accent
+    brandDark:    '#059669', // emerald-600 — hover/active
+    brandDeep:    '#047857', // emerald-700 — deep accent
+    brandSoft:    'rgba(16,185,129,0.10)',
+    brandGlow:    'rgba(16,185,129,0.30)',
+    banner:       'linear-gradient(135deg, #10B981 0%, #059669 50%, #047857 100%)',
+    page:         '#F8FAF9', // very faint mint page background
+    surface:      '#FFFFFF',
+    surfaceAlt:   '#F1FAF5', // soft mint chip
+    border:       '#E3EFE8',
+    text:         '#0F172A',
+    textMuted:    '#64748B',
     };
 
     const sidebarMenu = [
-    { name: 'Dashboard', icon: FiGrid, color: '#06B6D4', type: 'page', content: 'dashboard', items: [] },
-    { name: 'Track Cases', icon: FiEye, color: '#0891b2', type: 'page', content: 'track-cases', items: [] },
-    { name: 'Work Order', icon: FiBox, color: '#8B5CF6', type: 'page', content: 'cards', items: [
-        { name: 'Create / View Workorder', icon: FiPlus, desc: 'Create new work order', path: '/workorder-dashboard' },
+    { name: 'Dashboard', icon: FiGrid, color: '#10B981', type: 'page', content: 'dashboard', items: [] },
+    { name: 'Track Cases', icon: FiEye, color: '#059669', type: 'page', content: 'track-cases', items: [] },
+    { name: 'Work Order', icon: FiBox, color: '#047857', type: 'page', content: 'cards', items: [
+        // { name: 'Create / View Workorder', icon: FiPlus, desc: 'Create new work order', path: '/workorder-dashboard' },
         { name: 'Bulk Workorder', icon: FiBox, desc: 'Bulk work order upload' },
         // { name: 'Bulk Upload Document', icon: FiUpload, desc: 'Upload multiple files' },
     ]},
@@ -97,14 +113,31 @@
     function LoadingState({ message }) { return (<div className="flex flex-col items-center justify-center py-16 px-4"><div className="w-12 h-12 rounded-full border-3 border-cyan-200 border-t-cyan-500 animate-spin mb-4" style={{ borderWidth: '3px' }} /><p className="text-sm font-medium text-gray-600">{message || 'Loading...'}</p></div>); }
     function EmptyTableState({ icon: Icon, title, subtitle }) { return (<div className="flex flex-col items-center justify-center py-12 px-4"><div className="w-14 h-14 rounded-full flex items-center justify-center mb-3 bg-gray-100 border border-gray-200"><Icon size={24} style={{ color: '#9ca3af' }} /></div><p className="text-xs font-medium text-gray-600 mb-1">{title}</p><p className="text-[10px] text-gray-500">{subtitle}</p></div>); }
     function StatusBadge({ status }) { const cfg = getStatusConfig(status); const StatusIcon = cfg.icon; return (<span className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-semibold whitespace-nowrap" style={{ background: cfg.bg, color: cfg.color, border: `1px solid ${cfg.border}` }}><StatusIcon size={10} /> {cfg.label}</span>); }
-    function ProgressBar({ current, total, color = '#06B6D4' }) { const pct = total > 0 ? Math.round((current / total) * 100) : 0; return (<div className="flex items-center gap-2"><div className="h-1.5 rounded-full bg-gray-100 overflow-hidden w-20"><div className="h-full rounded-full transition-all duration-500" style={{ width: `${pct}%`, background: color }} /></div><span className="text-[10px] text-gray-500">{pct}%</span></div>); }
+    function ProgressBar({ current, total, color = '#10B981' }) { const pct = total > 0 ? Math.round((current / total) * 100) : 0; return (<div className="flex items-center gap-2"><div className="h-1.5 rounded-full bg-gray-100 overflow-hidden w-20"><div className="h-full rounded-full transition-all duration-500" style={{ width: `${pct}%`, background: color }} /></div><span className="text-[10px] text-gray-500">{pct}%</span></div>); }
 
-    function Sidebar({ activeMenu, onMenuClick, isOpen, onClose }) {
+    function Sidebar({ activeMenu, onMenuClick, isOpen, onClose, onCreateCase }) {
     return (<>
         {isOpen && <div className="fixed inset-0 bg-black/30 z-40 lg:hidden backdrop-blur-sm" onClick={onClose} />}
-        <aside className={`fixed left-0 top-24 h-[calc(100vh-96px)] z-40 transition-transform duration-300 ease-in-out lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`} style={{ width: '260px', background: '#fff', borderRight: '1px solid #e5e7eb' }}>
-        <div className="flex items-center gap-3 px-5 h-16 border-b border-gray-200"><div className="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center"><FiGrid size={18} className="text-cyan-600" /></div><span className="text-lg font-bold text-gray-900">Client Portal</span><button onClick={onClose} className="lg:hidden ml-auto p-1.5 rounded-lg hover:bg-gray-100"><FiClose size={18} className="text-gray-500" /></button></div>
-        <div className="py-3 px-3 overflow-y-auto" style={{ height: 'calc(100% - 64px)' }}>{sidebarMenu.map((menu) => { const isActive = activeMenu === menu.name; const MenuIcon = menu.icon; return (<div key={menu.name} className="mb-1"><button onClick={() => onMenuClick(menu.name, menu.content)} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all" style={{ background: isActive ? '#f0f9ff' : 'transparent', color: isActive ? '#0f172a' : '#374151', border: isActive ? '1px solid #67e8f9' : '1px solid transparent' }}><MenuIcon size={18} style={{ color: isActive ? menu.color : '#6b7280' }} /><span className="flex-1 text-left">{menu.name}</span>{isActive && <div className="w-1.5 h-1.5 rounded-full" style={{ background: menu.color }} />}</button></div>); })}</div>
+        <aside className={`fixed left-0 top-24 h-[calc(100vh-96px)] z-40 transition-transform duration-300 ease-in-out lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`} style={{ width: '260px', background: '#fff', borderRight: `1px solid ${THEME.border}` }}>
+        {/* Brand header */}
+        <div className="flex items-center gap-3 px-5 h-16 border-b" style={{ borderColor: THEME.border }}>
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${THEME.brand} 0%, ${THEME.brandDeep} 100%)`, boxShadow: `0 4px 12px ${THEME.brandGlow}` }}>
+            <FiShield size={18} color="#FFFFFF" />
+            </div>
+            <div className="flex flex-col leading-none">
+            <span className="text-base font-extrabold tracking-tight" style={{ color: THEME.text }}>Verifi<span style={{ color: THEME.brandDark }}>trust</span></span>
+            <span className="text-[9px] font-bold uppercase tracking-[0.18em] mt-0.5" style={{ color: THEME.textMuted }}>Client Portal</span>
+            </div>
+            <button onClick={onClose} className="lg:hidden ml-auto p-1.5 rounded-lg hover:bg-gray-100"><FiClose size={18} className="text-gray-500" /></button>
+        </div>
+        {/* Create New Case button */}
+        <div className="px-3 pt-4 pb-3">
+            <button onClick={onCreateCase} className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold text-white transition-all hover:scale-[1.02] hover:shadow-lg" style={{ background: `linear-gradient(135deg, ${THEME.brand} 0%, ${THEME.brandDark} 100%)`, boxShadow: `0 4px 14px ${THEME.brandGlow}` }}>
+            <FiPlus size={16} /> Create New Case
+            </button>
+        </div>
+        {/* Menu */}
+        <div className="px-3 pb-4 overflow-y-auto" style={{ height: 'calc(100% - 152px)' }}>{sidebarMenu.map((menu) => { const isActive = activeMenu === menu.name; const MenuIcon = menu.icon; return (<div key={menu.name} className="mb-1"><button onClick={() => onMenuClick(menu.name, menu.content)} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all" style={{ background: isActive ? THEME.surfaceAlt : 'transparent', color: isActive ? THEME.brandDeep : '#374151', border: isActive ? `1px solid ${THEME.brand}40` : '1px solid transparent' }}><MenuIcon size={18} style={{ color: isActive ? THEME.brand : '#6b7280' }} /><span className="flex-1 text-left">{menu.name}</span>{isActive && <div className="w-1.5 h-1.5 rounded-full" style={{ background: THEME.brand }} />}</button></div>); })}</div>
         </aside>
     </>);
     }
@@ -114,8 +147,9 @@
     return (<div className="space-y-6"><div><h1 className="text-xl sm:text-2xl font-bold text-gray-900" style={{ fontFamily: theme.fonts.display }}>{title}</h1><p className="text-xs sm:text-sm mt-1 text-gray-600">{subtitle}</p></div><div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">{items.map((item, index) => { const isActive = activeCard === item.name; const ItemIcon = item.icon; return (<button key={index} onClick={() => onCardClick(item)} className="group relative flex flex-col items-center gap-3 p-4 rounded-2xl transition-all duration-300 hover:scale-[1.03] border" style={{ background: isActive ? `rgba(${rgb}, 0.08)` : '#fff', borderColor: isActive ? `${menuColor}80` : '#e5e7eb' }}><div className="w-12 h-12 rounded-xl flex items-center justify-center transition-all group-hover:scale-110" style={{ background: `rgba(${rgb}, 0.1)` }}><ItemIcon size={22} style={{ color: menuColor }} /></div><span className="text-xs font-medium text-center text-gray-800">{item.name}</span><span className="text-[10px] text-center hidden sm:block text-gray-500">{item.desc}</span></button>); })}</div></div>);
     }
 
-    function StatCard({ title, value, icon: Icon, color, colorRgb, loading }) {
-    return (<div className="relative rounded-2xl p-4 sm:p-5 overflow-hidden group transition-all duration-300 hover:scale-[1.02] border" style={{ background: '#fff', borderColor: '#e5e7eb' }}><div className="relative flex items-start justify-between mb-3"><div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `rgba(${colorRgb}, 0.08)` }}>{loading ? <FiLoader size={20} style={{ color, animation: 'spin 1s linear infinite' }} /> : <Icon size={20} style={{ color }} />}</div></div><div className="relative"><h3 className="text-2xl font-bold mb-1 text-gray-900" style={{ fontFamily: theme.fonts.display }}>{loading ? '—' : value}</h3><p className="text-xs text-gray-600">{title}</p></div></div>);
+    function StatCard({ title, value, icon: Icon, color, colorRgb, loading, trend = 0 }) {
+    const trendUp = trend >= 0;
+    return (<div className="relative rounded-2xl p-4 sm:p-5 overflow-hidden group transition-all duration-300 hover:scale-[1.02] border" style={{ background: '#fff', borderColor: THEME.border }}><div className="relative flex items-start justify-between mb-3"><div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `rgba(${colorRgb}, 0.10)` }}>{loading ? <FiLoader size={20} style={{ color, animation: 'spin 1s linear infinite' }} /> : <Icon size={20} style={{ color }} />}</div>{!loading && trend !== 0 && (<span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-md" style={{ background: trendUp ? 'rgba(16,185,129,0.10)' : 'rgba(239,68,68,0.10)', color: trendUp ? '#059669' : '#DC2626' }}>{trendUp ? '↑' : '↓'} {Math.abs(trend)}%</span>)}</div><div className="relative"><h3 className="text-2xl font-bold mb-1" style={{ color: THEME.text, fontFamily: theme.fonts.display }}>{loading ? '—' : value}</h3><p className="text-xs" style={{ color: THEME.textMuted }}>{title}</p>{!loading && <p className="text-[10px] mt-1.5" style={{ color: '#94A3B8' }}>{Math.abs(trend)}% vs last month</p>}</div></div>);
     }
 
     function QuickActionCard({ icon: Icon, title, color, colorRgb, onClick }) {
@@ -1214,10 +1248,63 @@
     const fetchData = useCallback(async () => { setLoading(true); setError(''); try { const data = await apiCall('/workorders'); if (data.success) { let all = data.workorders || []; if (clientAuth?.clientCode || clientAuth?.portalEmail || clientAuth?.email || clientAuth?.companyName) { const cCode = (clientAuth.clientCode || '').toLowerCase().trim(); const cEmail = (clientAuth.portalEmail || clientAuth.email || '').toLowerCase().trim(); const cCo = (clientAuth.companyName || '').toLowerCase().trim(); const cId = clientAuth._id || ''; all = all.filter(wo => { if (cCode && (wo.clientCode || '').toLowerCase().trim() === cCode) return true; if (cCode && (wo.createdBy?.clientCode || '').toLowerCase().trim() === cCode) return true; if (cEmail) { const e = (wo.createdBy?.portalEmail || wo.createdBy?.email || wo.portalEmail || wo.email || '').toLowerCase().trim(); if (e === cEmail) return true; } if (cCo && (wo.client || '').toLowerCase().trim() === cCo) return true; if (cId && (wo.createdBy?.userId || wo.createdBy?.clientId) === cId) return true; return false; }); } else all = []; setWorkorders(all); setStats({ total: all.length, active: all.filter(w => !['completed', 'cancelled', 'overdue'].includes(w.status)).length, completed: all.filter(w => w.status === 'completed').length, overdue: all.filter(w => w.status === 'overdue').length, onHold: all.filter(w => ['on-hold', 'hold'].includes(w.status)).length }); } else setError(data.message || 'Failed.'); } catch (err) { setError(err.message); } finally { setLoading(false); } }, [clientAuth]);
     useEffect(() => { fetchData(); }, [fetchData]);
     const recentCases = workorders.slice(0, 5); const clientName = clientAuth?.companyName || clientAuth?.displayName || 'User';
-    const donutData = [{ label: 'Active', value: stats.active, color: '#06B6D4' }, { label: 'Completed', value: stats.completed, color: '#10B981' }, { label: 'On Hold', value: stats.onHold, color: '#8B5CF6' }, { label: 'Overdue', value: stats.overdue, color: '#EF4444' }].filter(d => d.value > 0); const totalForChart = donutData.reduce((s, d) => s + d.value, 0) || 1;
-    return (<div className="space-y-6"><div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4"><div><h1 className="text-xl font-bold text-gray-900" style={{ fontFamily: theme.fonts.display }}>Client Dashboard</h1><p className="text-xs text-gray-600 mt-1">Welcome back, <span className="font-semibold" style={{ color: '#0891b2' }}>{clientName}</span></p></div><button onClick={fetchData} disabled={loading} className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-medium border text-gray-600 disabled:opacity-50"><FiRefreshCw size={14} className={loading ? 'animate-spin' : ''} /> Refresh</button></div><div className="grid grid-cols-3 gap-3">
-      {/* <QuickActionCard icon={FiPlus} title="Initiate Case" color="#8B5CF6" colorRgb="139,92,246" onClick={() => onNavigate('initiate-case')} /> */}
-        <QuickActionCard icon={FiActivity} title="Track Cases" color="#06B6D4" colorRgb="6,182,212" onClick={() => onNavigate('track-cases')} /><QuickActionCard icon={FiFileText} title="Get Reports" color="#10B981" colorRgb="16,185,129" onClick={() => onNavigate('reports')} /></div><div className="grid grid-cols-2 lg:grid-cols-5 gap-3"><StatCard title="Total Cases" value={stats.total} icon={FiBriefcase} color="#8B5CF6" colorRgb="139,92,246" loading={loading} /><StatCard title="Active" value={stats.active} icon={FiActivity} color="#06B6D4" colorRgb="6,182,212" loading={loading} /><StatCard title="Completed" value={stats.completed} icon={FiCheckCircle} color="#10B981" colorRgb="16,185,129" loading={loading} /><StatCard title="On Hold" value={stats.onHold} icon={FiClock} color="#8B5CF6" colorRgb="139,92,246" loading={loading} /><div className="relative rounded-2xl p-4 sm:p-5 overflow-hidden group transition-all duration-300 hover:scale-[1.02] border" style={{ background: !loading && stats.overdue > 0 ? 'rgba(239,68,68,0.03)' : '#fff', borderColor: !loading && stats.overdue > 0 ? 'rgba(239,68,68,0.3)' : '#e5e7eb' }}>{!loading && stats.overdue > 0 && (<div className="absolute top-3 right-3"><span className="relative flex h-3 w-3"><span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-red-500"></span><span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span></span></div>)}<div className="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style={{ background: 'rgba(239,68,68,0.08)' }}>{loading ? <FiLoader size={20} style={{ color: '#EF4444', animation: 'spin 1s linear infinite' }} /> : <FiAlertTriangle size={20} style={{ color: '#EF4444' }} />}</div><h3 className="text-2xl font-bold mb-1" style={{ color: !loading && stats.overdue > 0 ? '#EF4444' : '#111827', fontFamily: theme.fonts.display }}>{loading ? '—' : stats.overdue}</h3><p className="text-xs" style={{ color: !loading && stats.overdue > 0 ? '#b91c1c' : '#4b5563' }}>Overdue</p>{!loading && stats.overdue > 0 && (<div className="absolute bottom-0 left-0 right-0 h-1 rounded-b-2xl" style={{ background: 'linear-gradient(90deg, #EF4444, #f87171)' }} />)}</div></div>{error && <div className="flex items-center gap-2 px-4 py-3 rounded-xl text-xs text-red-700 border" style={{ background: 'rgba(239,68,68,0.06)', borderColor: 'rgba(239,68,68,0.2)' }}><FiAlertCircle size={16} /><span className="flex-1">{error}</span></div>}<div className="grid grid-cols-1 lg:grid-cols-3 gap-4"><div className="lg:col-span-2 rounded-2xl overflow-hidden border" style={{ background: '#fff', borderColor: '#e5e7eb' }}><div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor: '#e5e7eb' }}><div className="flex items-center gap-2"><FiLayers size={16} style={{ color: '#10b981' }} /><h3 className="text-sm font-semibold text-gray-900">Recent Cases</h3></div><button onClick={() => onNavigate('track-cases')} className="flex items-center gap-1.5 text-[11px] font-semibold px-3.5 py-1.5 rounded-lg border border-cyan-200 text-cyan-700 hover:bg-cyan-50 transition-all">View All <FiChevronRight size={12} /></button></div>{loading ? <LoadingState message="Loading cases..." /> : recentCases.length > 0 ? (<div className="overflow-x-auto"><table className="w-full"><thead><tr className="border-b" style={{ borderColor: '#e5e7eb' }}><th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">Candidate</th><th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">BGV Ref</th><th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">Status</th><th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">Checks</th><th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">Created</th></tr></thead><tbody>{recentCases.map((wo) => (<tr key={wo._id} className="border-b last:border-0 hover:bg-gray-50/50 cursor-pointer" style={{ borderColor: '#e5e7eb' }} onClick={() => onNavigate('workorder-detail', wo._id)}><td className="px-4 py-3.5"><div className="flex items-center gap-2"><div className="w-7 h-7 rounded-lg flex items-center justify-center text-[10px] font-bold" style={{ background: 'rgba(6,182,212,0.1)', color: '#0891b2' }}>{(wo.fullName || 'N').charAt(0).toUpperCase()}</div><div><span className="text-xs font-medium text-gray-900 block">{wo.fullName || 'Unnamed'}</span><span className="text-[10px] text-gray-500">{wo.email || ''}</span></div></div></td><td className="px-4 py-3.5 text-xs font-mono" style={{ color: '#0891b2' }}>{wo.bgvRef || wo._id?.slice(-8)}</td><td className="px-4 py-3.5"><StatusBadge status={wo.status} /></td><td className="px-4 py-3.5"><div className="flex items-center gap-2"><span className="text-xs text-gray-600">{wo.progressDone || 0}/{wo.progressTotal || 0}</span><ProgressBar current={wo.progressDone || 0} total={wo.progressTotal || 0} /></div></td><td className="px-4 py-3.5 text-xs text-gray-500">{wo.createdAt ? new Date(wo.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }) : '—'}</td></tr>))}</tbody></table></div>) : <EmptyTableState icon={FiBriefcase} title="No cases yet" subtitle="Initiate your first case" />}</div><div className="rounded-2xl overflow-hidden border" style={{ background: '#fff', borderColor: '#e5e7eb' }}><div className="flex items-center gap-2 px-5 py-4 border-b" style={{ borderColor: '#e5e7eb' }}><FiBarChart2 size={16} style={{ color: '#10b981' }} /><h3 className="text-sm font-semibold text-gray-900">Status Overview</h3></div><div className="p-5">{stats.total > 0 ? (<div className="flex flex-col items-center gap-5"><div className="relative w-32 h-32"><svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">{donutData.reduce((acc, seg, i) => { const pct = (seg.value / totalForChart) * 100; acc.elems.push(<circle key={i} cx="18" cy="18" r="15.915" fill="none" stroke={seg.color} strokeWidth="3.2" strokeDasharray={`${pct} ${100 - pct}`} strokeDashoffset={`${-acc.off}`} strokeLinecap="round" style={{ transition: 'all 0.8s ease' }} />); acc.off += pct; return acc; }, { elems: [], off: 0 }).elems}</svg><div className="absolute inset-0 flex flex-col items-center justify-center"><span className="text-lg font-bold text-gray-900">{stats.total}</span><span className="text-[9px] text-gray-500 uppercase">Total</span></div></div><div className="w-full space-y-3">{[{ label: 'Active', value: stats.active, color: '#06B6D4' }, { label: 'Completed', value: stats.completed, color: '#10B981' }, { label: 'On Hold', value: stats.onHold, color: '#8B5CF6' }, { label: 'Overdue', value: stats.overdue, color: '#EF4444' }].map(item => (<div key={item.label} className="flex items-center gap-3"><div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: item.color }} /><div className="flex-1"><div className="flex justify-between"><span className="text-[11px] text-gray-700">{item.label}</span><span className="text-[11px] font-bold" style={{ color: item.color }}>{item.value} ({Math.round((item.value / stats.total) * 100)}%)</span></div><div className="h-1 rounded-full bg-gray-100 overflow-hidden mt-1"><div className="h-full rounded-full" style={{ width: `${(item.value / stats.total) * 100}%`, background: item.color, transition: 'width 0.7s' }} /></div></div></div>))}</div>{stats.overdue > 0 && <button onClick={() => onNavigate('track-cases')} className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-[11px] font-semibold text-white" style={{ background: 'linear-gradient(135deg, #EF4444, #dc2626)' }}><FiAlertTriangle size={14} />{stats.overdue} Overdue — Review Now</button>}</div>) : <EmptyTableState icon={FiBarChart2} title="No data" subtitle="Create a case to see stats" />}</div></div></div></div>);
+    const donutData = [{ label: 'Active', value: stats.active, color: '#10B981' }, { label: 'Completed', value: stats.completed, color: '#059669' }, { label: 'On Hold', value: stats.onHold, color: '#F59E0B' }, { label: 'Overdue', value: stats.overdue, color: '#EF4444' }].filter(d => d.value > 0); const totalForChart = donutData.reduce((s, d) => s + d.value, 0) || 1;
+    const handleExportReports = () => { const h = ['BGV Ref','Name','Email','Phone','Status','Priority','Created']; const rows = workorders.map(wo => [wo.bgvRef||wo._id?.slice(-8)||'',wo.fullName||'',wo.email||'',wo.phone||'',wo.status||'',wo.priority||'',wo.createdAt?new Date(wo.createdAt).toLocaleDateString('en-IN'):'']); const csv = [h,...rows].map(r=>r.map(c=>`"${c}"`).join(',')).join('\n'); const b = new Blob([csv],{type:'text/csv'}); const u = URL.createObjectURL(b); const a = document.createElement('a'); a.href=u; a.download=`reports_${new Date().toISOString().slice(0,10)}.csv`; a.click(); URL.revokeObjectURL(u); };
+    return (<div className="space-y-6">
+      {/* ── Welcome banner (green gradient, matches Veri Flow image) ── */}
+      <div className="relative rounded-2xl overflow-hidden" style={{ background: THEME.banner, boxShadow: '0 8px 24px rgba(16,185,129,0.18)' }}>
+        <div className="absolute inset-0 opacity-30" style={{ background: 'radial-gradient(circle at 90% 20%, rgba(255,255,255,0.25) 0%, transparent 50%)' }} />
+        <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-6 py-6 sm:py-7">
+          <div>
+            <h1 className="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">Welcome back, {clientName} <span>👋</span></h1>
+            <p className="text-xs sm:text-sm text-white/85 mt-1">Here is your verification overview for today.</p>
+          </div>
+          <div className="flex items-center gap-2 flex-wrap">
+            <button onClick={() => onNavigate('track-cases')} className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold bg-white/15 backdrop-blur text-white border border-white/30 hover:bg-white/25 transition-all"><FiActivity size={14} /> Live Tracking</button>
+            <button onClick={handleExportReports} disabled={loading || workorders.length === 0} className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold bg-white text-emerald-700 hover:bg-emerald-50 transition-all disabled:opacity-50"><FiDownload size={14} /> Export Reports</button>
+            <button onClick={fetchData} disabled={loading} className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs font-semibold bg-white/15 backdrop-blur text-white border border-white/30 hover:bg-white/25 transition-all disabled:opacity-60"><FiRefreshCw size={14} className={loading ? 'animate-spin' : ''} /></button>
+          </div>
+        </div>
+      </div>
+
+      {/* ── 5 stat cards ── */}
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
+        <StatCard title="Total Cases" value={stats.total} icon={FiBriefcase} color="#10B981" colorRgb="16,185,129" loading={loading} trend={0} />
+        <StatCard title="Active" value={stats.active} icon={FiActivity} color="#06B6D4" colorRgb="6,182,212" loading={loading} trend={0} />
+        <StatCard title="Completed" value={stats.completed} icon={FiCheckCircle} color="#059669" colorRgb="5,150,105" loading={loading} trend={0} />
+        <StatCard title="On Hold" value={stats.onHold} icon={FiClock} color="#F59E0B" colorRgb="245,158,11" loading={loading} trend={0} />
+        <div className="relative rounded-2xl p-4 sm:p-5 overflow-hidden group transition-all duration-300 hover:scale-[1.02] border" style={{ background: !loading && stats.overdue > 0 ? 'rgba(239,68,68,0.03)' : '#fff', borderColor: !loading && stats.overdue > 0 ? 'rgba(239,68,68,0.3)' : THEME.border }}>{!loading && stats.overdue > 0 && (<div className="absolute top-3 right-3"><span className="relative flex h-3 w-3"><span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-red-500"></span><span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span></span></div>)}<div className="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style={{ background: 'rgba(239,68,68,0.10)' }}>{loading ? <FiLoader size={20} style={{ color: '#EF4444', animation: 'spin 1s linear infinite' }} /> : <FiAlertTriangle size={20} style={{ color: '#EF4444' }} />}</div><h3 className="text-2xl font-bold mb-1" style={{ color: !loading && stats.overdue > 0 ? '#EF4444' : THEME.text, fontFamily: theme.fonts.display }}>{loading ? '—' : stats.overdue}</h3><p className="text-xs" style={{ color: !loading && stats.overdue > 0 ? '#b91c1c' : THEME.textMuted }}>Overdue</p>{!loading && <p className="text-[10px] mt-1.5" style={{ color: '#94A3B8' }}>0% vs last month</p>}{!loading && stats.overdue > 0 && (<div className="absolute bottom-0 left-0 right-0 h-1 rounded-b-2xl" style={{ background: 'linear-gradient(90deg, #EF4444, #f87171)' }} />)}</div>
+      </div>
+
+      {error && <div className="flex items-center gap-2 px-4 py-3 rounded-xl text-xs text-red-700 border" style={{ background: 'rgba(239,68,68,0.06)', borderColor: 'rgba(239,68,68,0.2)' }}><FiAlertCircle size={16} /><span className="flex-1">{error}</span></div>}
+
+      {/* ── Recent Cases + Status Overview ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="lg:col-span-2 rounded-2xl overflow-hidden border" style={{ background: '#fff', borderColor: THEME.border }}>
+          <div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor: THEME.border }}>
+            <div className="flex items-center gap-2"><FiLayers size={16} style={{ color: THEME.brand }} /><h3 className="text-sm font-semibold text-gray-900">Recent Cases</h3></div>
+            <button onClick={() => onNavigate('track-cases')} className="flex items-center gap-1.5 text-[11px] font-semibold px-3.5 py-1.5 rounded-lg border border-emerald-200 text-emerald-700 hover:bg-emerald-50 transition-all">View All <FiChevronRight size={12} /></button>
+          </div>
+          {loading ? <LoadingState message="Loading cases..." /> : recentCases.length > 0 ? (
+            <div className="overflow-x-auto"><table className="w-full"><thead><tr className="border-b" style={{ borderColor: THEME.border }}><th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">Candidate</th><th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">BGV Ref</th><th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">Status</th><th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">Checks</th><th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">Created</th></tr></thead><tbody>{recentCases.map((wo) => (<tr key={wo._id} className="border-b last:border-0 hover:bg-emerald-50/40 cursor-pointer" style={{ borderColor: THEME.border }} onClick={() => onNavigate('workorder-detail', wo._id)}><td className="px-4 py-3.5"><div className="flex items-center gap-2"><div className="w-7 h-7 rounded-lg flex items-center justify-center text-[10px] font-bold" style={{ background: 'rgba(16,185,129,0.12)', color: '#059669' }}>{(wo.fullName || 'N').charAt(0).toUpperCase()}</div><div><span className="text-xs font-medium text-gray-900 block">{wo.fullName || 'Unnamed'}</span><span className="text-[10px] text-gray-500">{wo.email || ''}</span></div></div></td><td className="px-4 py-3.5 text-xs font-mono font-semibold" style={{ color: THEME.brandDark }}>{wo.bgvRef || wo._id?.slice(-8)}</td><td className="px-4 py-3.5"><StatusBadge status={wo.status} /></td><td className="px-4 py-3.5"><div className="flex items-center gap-2"><span className="text-xs text-gray-600">{wo.progressDone || 0}/{wo.progressTotal || 0}</span><ProgressBar current={wo.progressDone || 0} total={wo.progressTotal || 0} /></div></td><td className="px-4 py-3.5 text-xs text-gray-500">{wo.createdAt ? new Date(wo.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' }) : '—'}</td></tr>))}</tbody></table></div>
+          ) : <EmptyTableState icon={FiBriefcase} title="No cases yet" subtitle="Initiate your first case" />}
+        </div>
+        <div className="rounded-2xl overflow-hidden border" style={{ background: '#fff', borderColor: THEME.border }}>
+          <div className="flex items-center gap-2 px-5 py-4 border-b" style={{ borderColor: THEME.border }}><FiBarChart2 size={16} style={{ color: THEME.brand }} /><h3 className="text-sm font-semibold text-gray-900">Status Overview</h3></div>
+          <div className="p-5">{stats.total > 0 ? (
+            <div className="flex flex-col items-center gap-5">
+              <div className="relative w-32 h-32">
+                <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">{donutData.reduce((acc, seg, i) => { const pct = (seg.value / totalForChart) * 100; acc.elems.push(<circle key={i} cx="18" cy="18" r="15.915" fill="none" stroke={seg.color} strokeWidth="3.2" strokeDasharray={`${pct} ${100 - pct}`} strokeDashoffset={`${-acc.off}`} strokeLinecap="round" style={{ transition: 'all 0.8s ease' }} />); acc.off += pct; return acc; }, { elems: [], off: 0 }).elems}</svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center"><span className="text-lg font-bold text-gray-900">{stats.total}</span><span className="text-[9px] text-gray-500 uppercase">Total Cases</span></div>
+              </div>
+              <div className="w-full space-y-3">{[{ label: 'Completed', value: stats.completed, color: '#059669' }, { label: 'Active', value: stats.active, color: '#10B981' }, { label: 'On Hold', value: stats.onHold, color: '#F59E0B' }, { label: 'Overdue', value: stats.overdue, color: '#EF4444' }].map(item => (<div key={item.label} className="flex items-center gap-3"><div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: item.color }} /><div className="flex-1"><div className="flex justify-between"><span className="text-[11px] text-gray-700">{item.label}</span><span className="text-[11px] font-bold" style={{ color: item.color }}>{item.value} ({Math.round((item.value / stats.total) * 100)}%)</span></div><div className="h-1 rounded-full bg-gray-100 overflow-hidden mt-1"><div className="h-full rounded-full" style={{ width: `${(item.value / stats.total) * 100}%`, background: item.color, transition: 'width 0.7s' }} /></div></div></div>))}</div>
+              {stats.overdue > 0 && <button onClick={() => onNavigate('track-cases')} className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-[11px] font-semibold text-white" style={{ background: 'linear-gradient(135deg, #EF4444, #dc2626)' }}><FiAlertTriangle size={14} />{stats.overdue} Overdue — Review Now</button>}
+            </div>
+          ) : <EmptyTableState icon={FiBarChart2} title="0 Total Cases" subtitle="Create a case to see stats" />}
+          </div>
+        </div>
+      </div>
+    </div>);
     }
 
     function PlaceholderView({ title, subtitle, icon: Icon, color }) { return (<div className="flex flex-col items-center justify-center py-20 px-4"><div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4 border" style={{ background: `${color}15`, borderColor: `${color}30` }}><Icon size={28} style={{ color }} /></div><h2 className="text-lg font-bold text-gray-900 mb-1">{title}</h2><p className="text-xs text-gray-500 text-center max-w-xs">{subtitle}</p></div>); }
@@ -1288,49 +1375,209 @@
 
     return (
         <div className="space-y-5">
-        <button onClick={() => onNavigate('back-to-dashboard')} className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-medium border text-gray-600 hover:bg-gray-100 transition-colors" style={{ borderColor: '#e5e7eb' }}><FiArrowLeft size={14} /> Back to Dashboard</button>
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div>
-            <div className="flex items-center gap-2 text-xs text-gray-400 mb-1"><FiHome size={11} /><FiChevronRight size={11} /><span className="cursor-pointer hover:text-gray-600" onClick={() => onNavigate('back-to-dashboard')}>Dashboard</span><FiChevronRight size={11} /><span className="text-gray-700 font-medium">Track Cases</span></div>
-            <h1 className="text-xl font-bold text-gray-900" style={{ fontFamily: theme.fonts.display }}>Track Cases</h1>
-            <p className="text-xs text-gray-500 mt-0.5">Monitor and manage all your background verification cases</p>
+            {/* Breadcrumb */}
+            <div className="flex items-center gap-2 text-xs text-gray-400">
+                <FiHome size={11} />
+                <FiChevronRight size={11} />
+                <span className="cursor-pointer hover:text-gray-600" onClick={() => onNavigate('back-to-dashboard')}>Dashboard</span>
+                <FiChevronRight size={11} />
+                <span className="text-gray-700 font-medium">Track Cases</span>
             </div>
-            <div className="flex items-center gap-2">
-            <button onClick={handleExportCSV} disabled={filteredOrders.length === 0} className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-[11px] font-semibold border text-gray-600 disabled:opacity-40 hover:bg-gray-50" style={{ borderColor: '#e5e7eb' }}><FiDownload size={13} /> Export</button>
-            <button onClick={() => onNavigate('initiate-case')} className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-[11px] font-semibold text-white" style={{ background: '#8B5CF6' }}><FiPlus size={13} /> New Case</button>
+
+            {/* Page header */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                    <h1 className="text-xl sm:text-2xl font-bold text-gray-900" style={{ fontFamily: theme.fonts.display }}>Track Cases</h1>
+                    <p className="text-xs text-gray-500 mt-0.5">Every candidate, every check, in one organized view.</p>
+                </div>
+                <div className="flex items-center gap-2">
+                    <button onClick={handleExportCSV} disabled={filteredOrders.length === 0} className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-[11px] font-semibold border disabled:opacity-40 hover:bg-gray-50 transition-all" style={{ borderColor: THEME.border, color: THEME.textMuted }}>
+                        <FiDownload size={13} /> Export
+                    </button>
+                    <button onClick={() => onNavigate('initiate-case')} className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-[11px] font-semibold text-white transition-all hover:scale-[1.02] hover:shadow-lg" style={{ background: `linear-gradient(135deg, ${THEME.brand} 0%, ${THEME.brandDark} 100%)`, boxShadow: `0 4px 12px ${THEME.brandGlow}` }}>
+                        <FiPlus size={13} /> New Case
+                    </button>
+                </div>
             </div>
-        </div>
 
-        {/* Status filter chips */}
-        <div className="flex flex-wrap gap-2">
-            {statusFilterOptions.map(opt => (
-            <button key={opt.value} onClick={() => setStatusFilter(statusFilter === opt.value ? '' : opt.value)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-semibold border transition-all" style={{ background: statusFilter === opt.value ? `${opt.color}12` : '#fff', borderColor: statusFilter === opt.value ? `${opt.color}50` : '#e5e7eb', color: statusFilter === opt.value ? opt.color : '#6b7280' }}>
-                <div className="w-1.5 h-1.5 rounded-full" style={{ background: opt.color }} />
-                {opt.label}
-            </button>
-            ))}
-        </div>
+            {/* Status filter chips */}
+            <div className="flex flex-wrap gap-2">
+                {statusFilterOptions.map(opt => (
+                    <button key={opt.value} onClick={() => setStatusFilter(statusFilter === opt.value ? '' : opt.value)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-semibold border transition-all" style={{ background: statusFilter === opt.value ? `${opt.color}12` : '#fff', borderColor: statusFilter === opt.value ? `${opt.color}50` : THEME.border, color: statusFilter === opt.value ? opt.color : THEME.textMuted }}>
+                        <div className="w-1.5 h-1.5 rounded-full" style={{ background: opt.color }} />
+                        {opt.label}
+                    </button>
+                ))}
+            </div>
 
-        {/* Search & Filters */}
-        <div className="flex flex-col sm:flex-row gap-3">
-            <div className="relative flex-1"><FiSearch size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" /><input type="text" placeholder="Search by name, email, BGV ref..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full pl-9 pr-4 py-2.5 rounded-xl text-xs border outline-none focus:ring-1 focus:ring-cyan-400" style={{ borderColor: '#e5e7eb' }} /></div>
-            <select value={priorityFilter} onChange={(e) => setPriorityFilter(e.target.value)} className="px-3 py-2.5 rounded-xl text-xs border outline-none bg-white" style={{ borderColor: '#e5e7eb' }}><option value="">All Priorities</option>{priorityFilterOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}</select>
-            <select value={dateFilter} onChange={(e) => setDateFilter(e.target.value)} className="px-3 py-2.5 rounded-xl text-xs border outline-none bg-white" style={{ borderColor: '#e5e7eb' }}><option value="">All Dates</option><option value="today">Today</option><option value="week">Last 7 Days</option><option value="month">This Month</option><option value="quarter">This Quarter</option></select>
-            {hasActiveFilters && <button onClick={clearFilters} className="flex items-center gap-1 px-3 py-2.5 rounded-xl text-[10px] font-semibold text-red-600 border border-red-200 bg-red-50 hover:bg-red-100"><FiX size={12} /> Clear</button>}
-        </div>
+            {/* Search & Filters */}
+            <div className="flex flex-col sm:flex-row gap-3">
+                <div className="relative flex-1">
+                    <FiSearch size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                    <input type="text" placeholder="Search by name, email or BGV ref..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full pl-9 pr-4 py-2.5 rounded-xl text-xs border outline-none focus:ring-1 focus:ring-emerald-400" style={{ borderColor: THEME.border }} />
+                </div>
+                <select value={priorityFilter} onChange={(e) => setPriorityFilter(e.target.value)} className="px-3 py-2.5 rounded-xl text-xs border outline-none bg-white cursor-pointer" style={{ borderColor: THEME.border }}>
+                    <option value="">All Priorities</option>
+                    {priorityFilterOptions.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+                </select>
+                <select value={dateFilter} onChange={(e) => setDateFilter(e.target.value)} className="px-3 py-2.5 rounded-xl text-xs border outline-none bg-white cursor-pointer" style={{ borderColor: THEME.border }}>
+                    <option value="">All Dates</option>
+                    <option value="today">Today</option>
+                    <option value="week">Last 7 Days</option>
+                    <option value="month">This Month</option>
+                    <option value="quarter">This Quarter</option>
+                </select>
+                {hasActiveFilters && <button onClick={clearFilters} className="flex items-center gap-1 px-3 py-2.5 rounded-xl text-[10px] font-semibold text-red-600 border border-red-200 bg-red-50 hover:bg-red-100 transition-all"><FiX size={12} /> Clear</button>}
+            </div>
 
-        {error && <div className="flex items-center gap-2 px-4 py-3 rounded-xl text-xs text-red-700 border" style={{ background: 'rgba(239,68,68,0.06)', borderColor: 'rgba(239,68,68,0.2)' }}><FiAlertCircle size={16} /><span className="flex-1">{error}</span></div>}
+            {error && <div className="flex items-center gap-2 px-4 py-3 rounded-xl text-xs text-red-700 border" style={{ background: 'rgba(239,68,68,0.06)', borderColor: 'rgba(239,68,68,0.2)' }}><FiAlertCircle size={16} /><span className="flex-1">{error}</span></div>}
 
-        {/* Cases Table */}
-        <div className="rounded-2xl overflow-hidden border" style={{ background: '#fff', borderColor: '#e5e7eb' }}>
-            {loading ? <LoadingState message="Loading cases..." /> : paginatedOrders.length > 0 ? (
-            <><div className="overflow-x-auto"><table className="w-full"><thead><tr className="border-b" style={{ borderColor: '#e5e7eb' }}><th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">Candidate</th><th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">BGV Ref</th><th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">Client Ref</th><th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">Status</th><th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">Priority</th><th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">Progress</th><th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">Created</th><th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">Action</th></tr></thead><tbody>{paginatedOrders.map((wo) => (<tr key={wo._id} className="border-b last:border-0 hover:bg-gray-50/50 transition-colors" style={{ borderColor: '#e5e7eb' }}><td className="px-4 py-3.5"><div className="flex items-center gap-2.5"><div className="w-8 h-8 rounded-lg flex items-center justify-center text-[11px] font-bold shrink-0" style={{ background: 'rgba(6,182,212,0.1)', color: '#0891b2' }}>{(wo.fullName || 'N').charAt(0).toUpperCase()}</div><div className="min-w-0"><span className="text-xs font-medium text-gray-900 block truncate max-w-[150px]">{wo.fullName || 'Unnamed'}</span><span className="text-[10px] text-gray-500 truncate block max-w-[150px]">{wo.email || ''}</span></div></div></td><td className="px-4 py-3.5 text-xs font-mono font-semibold" style={{ color: '#0891b2' }}>{wo.bgvRef || wo._id?.slice(-8)}</td><td className="px-4 py-3.5 text-xs text-gray-600">{wo.clientRef || '—'}</td><td className="px-4 py-3.5"><StatusBadge status={wo.status} /></td><td className="px-4 py-3.5"><span className={`text-[10px] font-semibold px-2 py-1 rounded-md ${priorityStyles[(wo.priority || '').toLowerCase()] || priorityStyles.standard}`}>{wo.priority || 'Standard'}</span></td><td className="px-4 py-3.5"><div className="flex items-center gap-2"><span className="text-[10px] text-gray-500 whitespace-nowrap">{wo.progressDone || 0}/{wo.progressTotal || 0}</span><ProgressBar current={wo.progressDone || 0} total={wo.progressTotal || 0} /></div></td><td className="px-4 py-3.5 text-xs text-gray-500 whitespace-nowrap">{wo.createdAt ? new Date(wo.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: '2-digit' }) : '—'}</td><td className="px-4 py-3.5"><button onClick={() => handleViewCase(wo)} className="flex items-center gap-1 text-[10px] font-medium px-2.5 py-1.5 rounded-lg border border-cyan-200 text-cyan-700 hover:bg-cyan-50 transition-all"><FiEye size={11} />View</button></td></tr>))}</tbody></table></div>
-            {totalPages > 1 && (<div className="flex items-center justify-between px-5 py-3 border-t" style={{ borderColor: '#e5e7eb' }}><span className="text-[10px] text-gray-500">Showing {(currentPage - 1) * pageSize + 1}-{Math.min(currentPage * pageSize, filteredOrders.length)} of {filteredOrders.length}</span><div className="flex items-center gap-1"><button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className="px-2.5 py-1.5 rounded-lg text-[10px] font-medium border disabled:opacity-30 hover:bg-gray-50" style={{ borderColor: '#e5e7eb' }}>Prev</button>{Array.from({ length: totalPages }, (_, i) => i + 1).filter(p => p === 1 || p === totalPages || Math.abs(p - currentPage) <= 1).map((p, i, arr) => (<React.Fragment key={p}>{i > 0 && arr[i - 1] !== p - 1 && <span className="px-1 text-gray-400">…</span>}<button onClick={() => setCurrentPage(p)} className="w-7 h-7 rounded-lg text-[10px] font-medium" style={{ background: currentPage === p ? '#0891b2' : 'transparent', color: currentPage === p ? '#fff' : '#374151', border: currentPage === p ? '1px solid #0891b2' : '1px solid #e5e7eb' }}>{p}</button></React.Fragment>))}<button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className="px-2.5 py-1.5 rounded-lg text-[10px] font-medium border disabled:opacity-30 hover:bg-gray-50" style={{ borderColor: '#e5e7eb' }}>Next</button></div></div>)}</>
-            ) : <EmptyTableState icon={FiBriefcase} title={hasActiveFilters ? 'No matching cases' : 'No cases yet'} subtitle={hasActiveFilters ? 'Try adjusting your filters' : 'Initiate your first case to get started'} />}
-        </div>
+            {/* Cases table OR empty state */}
+            <div className="rounded-2xl overflow-hidden border" style={{ background: '#fff', borderColor: THEME.border }}>
+                {loading ? <LoadingState message="Loading cases..." /> : paginatedOrders.length > 0 ? (
+                    <>
+                        <div className="overflow-x-auto">
+                            <table className="w-full">
+                                <thead>
+                                    <tr className="border-b" style={{ borderColor: THEME.border }}>
+                                        <th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">Candidate</th>
+                                        <th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">BGV Ref</th>
+                                        <th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">Client Ref</th>
+                                        <th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">Status</th>
+                                        <th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">Priority</th>
+                                        <th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">Progress</th>
+                                        <th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">Created</th>
+                                        <th className="px-4 py-3 text-left text-[10px] font-semibold uppercase text-gray-500">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {paginatedOrders.map((wo) => (
+                                        <tr key={wo._id} className="border-b last:border-0 hover:bg-emerald-50/40 transition-colors cursor-pointer" style={{ borderColor: THEME.border }} onClick={() => handleViewCase(wo)}>
+                                            <td className="px-4 py-3.5">
+                                                <div className="flex items-center gap-2.5">
+                                                    <div className="w-8 h-8 rounded-lg flex items-center justify-center text-[11px] font-bold shrink-0" style={{ background: 'rgba(16,185,129,0.12)', color: '#059669' }}>{(wo.fullName || 'N').charAt(0).toUpperCase()}</div>
+                                                    <div className="min-w-0">
+                                                        <span className="text-xs font-medium text-gray-900 block truncate max-w-[150px]">{wo.fullName || 'Unnamed'}</span>
+                                                        <span className="text-[10px] text-gray-500 truncate block max-w-[150px]">{wo.email || ''}</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="px-4 py-3.5 text-xs font-mono font-semibold" style={{ color: THEME.brandDark }}>{wo.bgvRef || wo._id?.slice(-8)}</td>
+                                            <td className="px-4 py-3.5 text-xs text-gray-600">{wo.clientRef || '—'}</td>
+                                            <td className="px-4 py-3.5"><StatusBadge status={wo.status} /></td>
+                                            <td className="px-4 py-3.5"><span className={`text-[10px] font-semibold px-2 py-1 rounded-md ${priorityStyles[(wo.priority || '').toLowerCase()] || priorityStyles.standard}`}>{wo.priority || 'Standard'}</span></td>
+                                            <td className="px-4 py-3.5">
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-[10px] text-gray-500 whitespace-nowrap">{wo.progressDone || 0}/{wo.progressTotal || 0}</span>
+                                                    <ProgressBar current={wo.progressDone || 0} total={wo.progressTotal || 0} />
+                                                </div>
+                                            </td>
+                                            <td className="px-4 py-3.5 text-xs text-gray-500 whitespace-nowrap">{wo.createdAt ? new Date(wo.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: '2-digit' }) : '—'}</td>
+                                            <td className="px-4 py-3.5" onClick={(e) => e.stopPropagation()}><button onClick={() => handleViewCase(wo)} className="flex items-center gap-1 text-[10px] font-medium px-2.5 py-1.5 rounded-lg border border-emerald-200 text-emerald-700 hover:bg-emerald-50 transition-all"><FiEye size={11} />View</button></td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                        {totalPages > 1 && (
+                            <div className="flex items-center justify-between px-5 py-3 border-t" style={{ borderColor: THEME.border }}>
+                                <span className="text-[10px] text-gray-500">Showing {(currentPage - 1) * pageSize + 1}-{Math.min(currentPage * pageSize, filteredOrders.length)} of {filteredOrders.length}</span>
+                                <div className="flex items-center gap-1">
+                                    <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className="px-2.5 py-1.5 rounded-lg text-[10px] font-medium border disabled:opacity-30 hover:bg-gray-50 transition-all" style={{ borderColor: THEME.border }}>Prev</button>
+                                    {Array.from({ length: totalPages }, (_, i) => i + 1).filter(p => p === 1 || p === totalPages || Math.abs(p - currentPage) <= 1).map((p, i, arr) => (
+                                        <React.Fragment key={p}>
+                                            {i > 0 && arr[i - 1] !== p - 1 && <span className="px-1 text-gray-400">…</span>}
+                                            <button onClick={() => setCurrentPage(p)} className="w-7 h-7 rounded-lg text-[10px] font-medium transition-all" style={{ background: currentPage === p ? THEME.brand : 'transparent', color: currentPage === p ? '#fff' : '#374151', border: currentPage === p ? `1px solid ${THEME.brand}` : `1px solid ${THEME.border}` }}>{p}</button>
+                                        </React.Fragment>
+                                    ))}
+                                    <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className="px-2.5 py-1.5 rounded-lg text-[10px] font-medium border disabled:opacity-30 hover:bg-gray-50 transition-all" style={{ borderColor: THEME.border }}>Next</button>
+                                </div>
+                            </div>
+                        )}
+                    </>
+                ) : (
+                    /* Empty state - matches the Veri Flow reference image */
+                    <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
+                        <div className="w-20 h-20 rounded-2xl flex items-center justify-center mb-5" style={{ background: THEME.brandSoft, border: `1px solid ${THEME.brand}30` }}>
+                            <FiBriefcase size={36} style={{ color: THEME.brand }} />
+                        </div>
+                        <h3 className="text-lg font-bold text-gray-900 mb-1.5">Your case board is clear.</h3>
+                        <p className="text-xs text-gray-500 mb-6 max-w-sm">
+                            {hasActiveFilters ? 'No cases match your current filters. Try adjusting or clearing them.' : 'Start a new background verification case to see it tracked here in real time.'}
+                        </p>
+                        <div className="flex flex-col sm:flex-row items-center gap-3">
+                            {!hasActiveFilters && (
+                                <button onClick={() => onNavigate('initiate-case')} className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-semibold text-white transition-all hover:scale-[1.02] hover:shadow-lg" style={{ background: `linear-gradient(135deg, ${THEME.brand} 0%, ${THEME.brandDark} 100%)`, boxShadow: `0 4px 14px ${THEME.brandGlow}` }}>
+                                    <FiPlus size={14} /> Initiate First Case
+                                </button>
+                            )}
+                            {!hasActiveFilters && (
+                                <button onClick={() => onNavigate('back-to-dashboard')} className="text-[11px] text-gray-500 hover:text-emerald-700 underline-offset-2 hover:underline transition-colors">
+                                    Or, import bulk candidates via CSV
+                                </button>
+                            )}
+                            {hasActiveFilters && (
+                                <button onClick={clearFilters} className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-semibold border text-gray-600 hover:bg-gray-50 transition-all" style={{ borderColor: THEME.border }}>
+                                    <FiX size={14} /> Clear Filters
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                )}
+            </div>
 
-        {/* Case Detail Slide-over */}
-        {showDetail && selectedCase && (<div className="fixed inset-0 z-50 flex justify-end"><div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={closeDetail} /><div className="relative w-full max-w-lg h-full overflow-y-auto shadow-2xl" style={{ background: '#fff', animation: 'slideInRight 0.3s ease' }}><div className="sticky top-0 z-10 flex items-center justify-between px-5 py-4 border-b" style={{ background: '#fff', borderColor: '#e5e7eb' }}><h3 className="text-sm font-bold text-gray-900">Case Details</h3><button onClick={closeDetail} className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100"><FiX size={18} className="text-gray-500" /></button></div><div className="p-5 space-y-5"><div className="flex items-center gap-4"><div className="w-14 h-14 rounded-xl flex items-center justify-center text-xl font-bold" style={{ background: 'rgba(6,182,212,0.1)', color: '#0891b2' }}>{(selectedCase.fullName || 'N').charAt(0).toUpperCase()}</div><div><h2 className="text-base font-bold text-gray-900">{selectedCase.fullName || 'Unnamed'}</h2><p className="text-xs text-gray-500">{selectedCase.email || ''}</p><div className="flex items-center gap-2 mt-1"><StatusBadge status={selectedCase.status} /><span className={`text-[10px] font-semibold px-2 py-0.5 rounded-md ${priorityStyles[(selectedCase.priority || '').toLowerCase()] || priorityStyles.standard}`}>{selectedCase.priority || 'Standard'}</span></div></div></div><div className="grid grid-cols-2 gap-3">{[{ l: 'BGV Ref', v: selectedCase.bgvRef || selectedCase._id?.slice(-8) }, { l: 'Client Ref', v: selectedCase.clientRef || '—' }, { l: 'Phone', v: selectedCase.phone || '—' }, { l: 'Client', v: selectedCase.client || '—' }, { l: 'Created', v: selectedCase.createdAt ? new Date(selectedCase.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '—' }, { l: 'Progress', v: `${selectedCase.progressDone || 0}/${selectedCase.progressTotal || 0}` }].map(f => (<div key={f.l} className="p-3 rounded-xl border" style={{ borderColor: '#e5e7eb' }}><p className="text-[10px] text-gray-500 mb-1">{f.l}</p><p className="text-xs font-semibold text-gray-900">{f.v}</p></div>))}</div><div><h4 className="text-xs font-semibold text-gray-900 mb-3">Checks</h4>{loadingChecks ? <div className="flex items-center gap-2 text-xs text-gray-500 py-4 justify-center"><FiLoader size={14} className="animate-spin" />Loading checks...</div> : caseChecks.length > 0 ? (<div className="space-y-2">{caseChecks.map((ch, i) => { const cfg = getStatusConfig(ch.status); return (<div key={i} className="flex items-center gap-3 p-3 rounded-xl border" style={{ borderColor: '#e5e7eb' }}><div className="flex-1 min-w-0"><p className="text-xs font-medium text-gray-900 truncate">{ch.checkType || ch.name || `Check ${i + 1}`}</p>{ch.subType && <p className="text-[10px] text-gray-500">{ch.subType}</p>}</div><StatusBadge status={ch.status} /></div>); })}</div>) : <p className="text-xs text-gray-500 py-4 text-center">No checks found</p>}</div></div></div></div>)}
+            {/* Case Detail Slide-over - recolored to emerald */}
+            {showDetail && selectedCase && (
+                <div className="fixed inset-0 z-50 flex justify-end">
+                    <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={closeDetail} />
+                    <div className="relative w-full max-w-lg h-full overflow-y-auto shadow-2xl" style={{ background: '#fff', animation: 'slideInRight 0.3s ease' }}>
+                        <div className="sticky top-0 z-10 flex items-center justify-between px-5 py-4 border-b" style={{ background: '#fff', borderColor: THEME.border }}>
+                            <h3 className="text-sm font-bold text-gray-900">Case Details</h3>
+                            <button onClick={closeDetail} className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-gray-100 transition-colors"><FiX size={18} className="text-gray-500" /></button>
+                        </div>
+                        <div className="p-5 space-y-5">
+                            <div className="flex items-center gap-4">
+                                <div className="w-14 h-14 rounded-xl flex items-center justify-center text-xl font-bold" style={{ background: 'rgba(16,185,129,0.12)', color: '#059669' }}>{(selectedCase.fullName || 'N').charAt(0).toUpperCase()}</div>
+                                <div>
+                                    <h2 className="text-base font-bold text-gray-900">{selectedCase.fullName || 'Unnamed'}</h2>
+                                    <p className="text-xs text-gray-500">{selectedCase.email || ''}</p>
+                                    <div className="flex items-center gap-2 mt-1">
+                                        <StatusBadge status={selectedCase.status} />
+                                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-md ${priorityStyles[(selectedCase.priority || '').toLowerCase()] || priorityStyles.standard}`}>{selectedCase.priority || 'Standard'}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-3">
+                                {[{ l: 'BGV Ref', v: selectedCase.bgvRef || selectedCase._id?.slice(-8) }, { l: 'Client Ref', v: selectedCase.clientRef || '—' }, { l: 'Phone', v: selectedCase.phone || '—' }, { l: 'Client', v: selectedCase.client || '—' }, { l: 'Created', v: selectedCase.createdAt ? new Date(selectedCase.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : '—' }, { l: 'Progress', v: `${selectedCase.progressDone || 0}/${selectedCase.progressTotal || 0}` }].map(f => (
+                                    <div key={f.l} className="p-3 rounded-xl border" style={{ borderColor: THEME.border }}>
+                                        <p className="text-[10px] text-gray-500 mb-1">{f.l}</p>
+                                        <p className="text-xs font-semibold text-gray-900">{f.v}</p>
+                                    </div>
+                                ))}
+                            </div>
+                            <div>
+                                <h4 className="text-xs font-semibold text-gray-900 mb-3">Checks</h4>
+                                {loadingChecks ? <div className="flex items-center gap-2 text-xs text-gray-500 py-4 justify-center"><FiLoader size={14} className="animate-spin" />Loading checks...</div> : caseChecks.length > 0 ? (
+                                    <div className="space-y-2">
+                                        {caseChecks.map((ch, i) => {
+                                            const cfg = getStatusConfig(ch.status);
+                                            return (
+                                                <div key={i} className="flex items-center gap-3 p-3 rounded-xl border" style={{ borderColor: THEME.border }}>
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="text-xs font-medium text-gray-900 truncate">{ch.checkType || ch.name || `Check ${i + 1}`}</p>
+                                                        {ch.subType && <p className="text-[10px] text-gray-500">{ch.subType}</p>}
+                                                    </div>
+                                                    <StatusBadge status={ch.status} />
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                ) : <p className="text-xs text-gray-500 py-4 text-center">No checks found</p>}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
     }
