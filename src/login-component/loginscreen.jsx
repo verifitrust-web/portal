@@ -257,7 +257,7 @@ export default function LoginPageAlt() {
 
     try {
       if (mode === 'employee') {
-        const response = await api.post('/employee/login', {
+        const response = await api.post('api/employee/login', {
           email: form.email,
           password: form.password,
         });
@@ -283,7 +283,7 @@ export default function LoginPageAlt() {
           }, 1200);
         }
       } else {
-        const response = await api.post('/client/login', {
+        const response = await api.post('api/client/login', {
           email: form.email,
           password: form.password,
         });
