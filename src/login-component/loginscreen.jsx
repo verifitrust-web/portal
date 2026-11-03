@@ -55,7 +55,7 @@ function BrandMark({ variant = 'light' }) {
     >
       <img
         src={verifiTechLogo}
-        alt="Verifitech"
+        alt="Verifitrust"
         className="h-8 w-auto object-contain"
         style={{ filter: isLight ? 'brightness(0) invert(1)' : 'none' }}
       />
