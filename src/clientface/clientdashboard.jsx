@@ -390,14 +390,17 @@
         try {
             const data = JSON.parse(xhr.responseText);
             if (xhr.status >= 200 && xhr.status < 300 && data.success) {
+            const createdCount = data.created ?? data.successCount ?? 0;
+            const failedCount  = data.failed  ?? data.failedCount  ?? 0;
             setUploadResult({
                 success: true,
                 message: data.message || 'Bulk upload completed successfully!',
-                total: data.total ?? data.totalRows ?? 0,
-                created: data.created ?? data.successCount ?? 0,
-                failed: data.failed ?? data.failedCount ?? 0,
+                // FIX: derive total when backend omits it
+                total: data.total ?? data.totalRows ?? (createdCount + failedCount),
+                created: createdCount,
+                failed: failedCount,
                 errors: data.errors ?? data.failedRows ?? [],
-                workorderIds: data.workorderIds ?? [],
+                workorderIds: data.workorderIds ?? data.workorders ?? [],
             });
             if (onUploadSuccess) onUploadSuccess(data);
             } else {
@@ -1596,6 +1599,22 @@
 
     // ★ Bulk Upload Modal State ★
     const [showBulkUploadModal, setShowBulkUploadModal] = useState(false);
+    // ★ bumped after every successful bulk upload so the active
+    //   content view (Dashboard / Track Cases) remounts and
+    //   re-fetches its workorder list.
+    const [bulkUploadNonce, setBulkUploadNonce] = useState(0);
+
+    const handleBulkUploadSuccess = (data) => {
+        setBulkUploadNonce(n => n + 1);
+        const created = data?.created ?? 0;
+        const failed  = data?.failed  ?? 0;
+        showToast(
+            failed > 0
+                ? `Bulk upload done — ${created} created, ${failed} failed.`
+                : `Bulk upload done — ${created} workorder${created === 1 ? '' : 's'} created.`,
+            failed > 0 ? 'warning' : 'success'
+        );
+    };
 
     const handleMenuClick = (menuName, contentType) => {
         setActiveMenu(menuName);
@@ -1659,9 +1678,9 @@
     const renderContent = () => {
         switch (activeContent) {
         case 'dashboard':
-            return <DashboardContent onNavigate={handleNavigate} clientAuth={clientAuth} />;
+            return <DashboardContent key={`dash-${bulkUploadNonce}`} onNavigate={handleNavigate} clientAuth={clientAuth} />;
         case 'track-cases':
-            return <TrackCaseDashboard clientAuth={clientAuth} onNavigate={handleNavigate} />;
+            return <TrackCaseDashboard key={`track-${bulkUploadNonce}`} clientAuth={clientAuth} onNavigate={handleNavigate} />;
         case 'initiate-case':
             return <InitiateCaseForm onBack={() => handleNavigate('back-to-dashboard')} onSubmitted={handleCaseSubmitted} clientAuth={clientAuth} />;
         case 'support-dashboard':
@@ -1675,7 +1694,7 @@
             }
             return <PlaceholderView title={activeMenu} subtitle="Content coming soon" icon={currentMenu?.icon || FiGrid} color={currentMenu?.color || '#6b7280'} />;
         default:
-            return <DashboardContent onNavigate={handleNavigate} clientAuth={clientAuth} />;
+            return <DashboardContent key={`dash-${bulkUploadNonce}`} onNavigate={handleNavigate} clientAuth={clientAuth} />;
         }
     };
 
@@ -1708,6 +1727,7 @@
             isOpen={showBulkUploadModal}
             onClose={() => setShowBulkUploadModal(false)}
             clientAuth={clientAuth}
+            onUploadSuccess={handleBulkUploadSuccess}
         />
         </div>
     );
