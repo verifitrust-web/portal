@@ -22,7 +22,7 @@ import { useAuth } from '../context/AuthContext';
 
 /* ───────── VeriTrust green logo (from CDN) ───────── */
 const verifiTechLogo =
-  'https://portal.verifitrust.com/assets/verifitech-logoo-B8NSlskG.png';
+  'https://verifitrust.com/assets/logo.png';
 
 /* ───────── Design tokens — exact VeriFlow green theme ───────── */
 const C = {
